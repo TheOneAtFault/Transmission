@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ody.serial">
+    <application>
+        <provider
+            android:authorities="${applicationId}.StartUp"
+            android:exported="false"
+            android:enabled="true"
+            android:name=".StartUp"/>
+    </application>
+</manifest>

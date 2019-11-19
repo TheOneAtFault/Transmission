@@ -1,0 +1,5 @@
+Date: 31/10/2019
+By: MJ van Wyk
+Take note
+1. This lib requires the "android.permission.USB_PERMISSION"
+   On calling this library, will check if the device has this capability and if the permission is granted.
