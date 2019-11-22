@@ -13,11 +13,10 @@ import com.ody.aidl.Utils.AidlUtil;
 
 public class Image {
     //options
-    static int IN_TARGET_DENSITY = 160;
-    static int IN_DENSITY = 160;
+    private static int IN_TARGET_DENSITY = 160;
+    private static int IN_DENSITY = 160;
     //operation variables
-    static int myorientation;
-    static StartUp startUp;
+    private static int myorientation;
     private static Response response;
     Context context;
     private static Image mImage = new Image();
@@ -45,7 +44,7 @@ public class Image {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inTargetDensity = 160;
                 options.inDensity = 160;
-                bitmap = BitmapFactory.decodeResource(startUp.getApplication().getResources(), R.mipmap.logosmall, options);
+                bitmap = BitmapFactory.decodeResource(StartUp.getApplication().getResources(), R.mipmap.logosmall, options);
             }
 
             AidlUtil.getInstance().printBitmap(bitmap, myorientation);
@@ -56,6 +55,8 @@ public class Image {
             response = Response.getInstance().compose(true, null, "success");
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in image aidl");
+        } finally {
+            AidlUtil.getInstance().disconnectPrinterService(StartUp.getApplication());
         }
 
         return response;

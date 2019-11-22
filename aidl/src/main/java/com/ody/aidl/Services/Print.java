@@ -6,8 +6,6 @@ import com.ody.aidl.Features.Image;
 import com.ody.aidl.Features.QR;
 import com.ody.aidl.Features.Text;
 import com.ody.aidl.Helpers.Response;
-import com.ody.aidl.StartUp;
-import com.ody.aidl.Utils.AidlUtil;
 
 public class Print {
     private static Response response;
@@ -18,9 +16,6 @@ public class Print {
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in Print - QR");
         }
-        finally {
-            AidlUtil.getInstance().disconnectPrinterService(StartUp.getApplication());
-        }
         return response;
     }
 
@@ -30,9 +25,6 @@ public class Print {
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in Print - Image");
         }
-        finally {
-            AidlUtil.getInstance().disconnectPrinterService(StartUp.getApplication());
-        }
         return response;
     }
 
@@ -41,9 +33,6 @@ public class Print {
             response = Text.getInstance().plain(content, cut);
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in Print - Text");
-        }
-        finally {
-            AidlUtil.getInstance().disconnectPrinterService(StartUp.getApplication());
         }
         return response;
     }
