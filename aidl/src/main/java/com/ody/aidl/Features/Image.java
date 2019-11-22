@@ -11,6 +11,7 @@ import com.ody.aidl.R;
 import com.ody.aidl.StartUp;
 import com.ody.aidl.Utils.AidlUtil;
 
+
 public class Image {
     //options
     private static int IN_TARGET_DENSITY = 160;
@@ -29,7 +30,7 @@ public class Image {
         return mImage;
     }
 
-    public Response print(@Nullable Bitmap bitmap, int inTargetDensity, int inDensity, boolean cut) {
+    public Response print(@Nullable String image, int inTargetDensity, int inDensity, boolean cut) {
         try {
             if (inTargetDensity != 0) {
                 IN_TARGET_DENSITY = inTargetDensity;
@@ -40,19 +41,33 @@ public class Image {
 
             //set options
             //todo add options if required
-            if (bitmap == null) {
+            if (image != null) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inTargetDensity = 160;
                 options.inDensity = 160;
-                bitmap = BitmapFactory.decodeResource(StartUp.getApplication().getResources(), R.mipmap.logosmall, options);
-            }
+                Bitmap bitmap = BitmapFactory.decodeFile(image);
 
-            AidlUtil.getInstance().printBitmap(bitmap, myorientation);
-            if (cut) {
-                AidlUtil.getInstance().makeCut();
+                AidlUtil.getInstance().printBitmap(bitmap, myorientation);
+                if (cut) {
+                    AidlUtil.getInstance().makeCut();
+                }
+                //set response
+                response = Response.getInstance().compose(true, null, "success");
+            } else if (image == null) {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inTargetDensity = 160;
+                options.inDensity = 160;
+                Bitmap bitmap = BitmapFactory.decodeResource(StartUp.getApplication().getResources(), R.mipmap.ody, options);
+
+                AidlUtil.getInstance().printBitmap(bitmap, myorientation);
+                if (cut) {
+                    AidlUtil.getInstance().makeCut();
+                }
+                //set response
+                response = Response.getInstance().compose(true, null, "success");
+            } else {
+                response = Response.getInstance().compose(false, null, "Image file is empty.");
             }
-            //set response
-            response = Response.getInstance().compose(true, null, "success");
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in image aidl");
         } finally {

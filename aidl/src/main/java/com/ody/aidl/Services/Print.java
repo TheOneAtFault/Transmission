@@ -2,6 +2,8 @@ package com.ody.aidl.Services;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.Nullable;
+
 import com.ody.aidl.Features.Image;
 import com.ody.aidl.Features.QR;
 import com.ody.aidl.Features.Text;
@@ -19,7 +21,7 @@ public class Print {
         return response;
     }
 
-    public static Response image(Bitmap data, boolean cut) {
+    public static Response image(@Nullable String data, boolean cut) {
         try {
             response = Image.getInstance().print(data, 0, 0, cut);
         } catch (Exception e) {

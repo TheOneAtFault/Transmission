@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 import android.database.Cursor;
@@ -26,6 +27,10 @@ public class StartUp extends ContentProvider {
         return mApplication.get();
     }
 
+    public static WeakReference<Context> getCurContext(){
+        return mContext;
+    }
+
     @Override
     public boolean onCreate() {
         Context context = getContext();
@@ -33,7 +38,9 @@ public class StartUp extends ContentProvider {
         mApplication = new WeakReference<Application>((Application) context.getApplicationContext());
         //aidl init
         isAidl = true;
-        AidlUtil.getInstance().connectPrinterService(context);
+        AidlUtil.getInstance().connectPrinterService(mContext);
+        Toast.makeText(context,"Startup - context",Toast.LENGTH_SHORT).show();
+
         return false;
     }
 

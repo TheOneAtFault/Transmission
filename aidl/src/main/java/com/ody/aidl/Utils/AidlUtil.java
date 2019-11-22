@@ -11,6 +11,9 @@ import android.widget.Toast;
 
 import com.ody.aidl.Helpers.Response;
 import com.ody.aidl.R;
+import com.ody.aidl.StartUp;
+
+import java.lang.ref.WeakReference;
 
 import woyou.aidlservice.jiuiv5.ICallback;
 import woyou.aidlservice.jiuiv5.IWoyouService;
@@ -31,13 +34,13 @@ public class AidlUtil {
         return mAidlUtil;
     }
 
-    public void connectPrinterService(Context context) {
-        this.context = context.getApplicationContext();
+    public void connectPrinterService(WeakReference<Context> context) {
+        this.context = context.get().getApplicationContext();
         Intent intent = new Intent();
         intent.setPackage(SERVICE＿PACKAGE);
         intent.setAction(SERVICE＿ACTION);
-        context.getApplicationContext().startService(intent);
-        context.getApplicationContext().bindService(intent, connService, Context.BIND_AUTO_CREATE);
+        context.get().getApplicationContext().startService(intent);
+        context.get().getApplicationContext().bindService(intent, connService, Context.BIND_AUTO_CREATE);
     }
 
     public void disconnectPrinterService(Context context) {
@@ -81,8 +84,14 @@ public class AidlUtil {
 
     public void printBitmap(Bitmap bitmap, int orientation) {
         if (woyouService == null) {
-            Toast.makeText(context, "Service is null on: printBitmap", Toast.LENGTH_LONG).show();
-            return;
+            //re-establish
+            connectPrinterService(StartUp.getCurContext());
+            //Toast.makeText(context, "Service is null on: printBitmap", Toast.LENGTH_LONG).show();
+            //return;
+            if (woyouService == null){
+                Toast.makeText(context, "Service is null on: printBitmap", Toast.LENGTH_LONG).show();
+                return;
+            }
         }
 
         try {
@@ -117,6 +126,7 @@ public class AidlUtil {
     //custom method
     public void makeCut() {
         if (woyouService != null) {
+            Toast.makeText(context, "Make Cut", Toast.LENGTH_SHORT);
             try {
                 woyouService.cutPaper(null);
             } catch (RemoteException e) {

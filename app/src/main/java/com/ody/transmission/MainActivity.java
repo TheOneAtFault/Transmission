@@ -3,14 +3,18 @@ package com.ody.transmission;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ody.usb.Helpers.Response;
 import com.ody.usb.Helpers.ReturnDevices;
 import com.ody.usb.Services.Print;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -50,5 +54,10 @@ public class MainActivity extends AppCompatActivity {
             String s = writer.toString();
             log.setText(s);
         }
+    }
+
+    public void print(View v){
+
+        com.ody.aidl.Services.Print.image(null,true);
     }
 }
