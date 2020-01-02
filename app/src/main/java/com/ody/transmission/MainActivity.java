@@ -3,21 +3,12 @@ package com.ody.transmission;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.Button;
 
-import com.ody.usb.Helpers.Response;
-import com.ody.usb.Helpers.ReturnDevices;
-import com.ody.usb.Services.Print;
-
-import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
+//Toast.makeText(context,"Jobs done",Toast.LENGTH_SHORT).show();
 
 public class MainActivity extends AppCompatActivity {
     Context context;
@@ -26,38 +17,46 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.context = getApplicationContext();
+
+        //aidl
+        Button aidl = findViewById(R.id.btn_AIDL);
+        final Button usb = findViewById(R.id.btn_usb);
+        Button serial = findViewById(R.id.btn_serial);
+        Button wifi = findViewById(R.id.btn_wifi);
+
+
+        aidl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toAidl = new Intent(MainActivity.this, AIDLActivity.class);
+                //toAidl.putExtra("key", 0);
+                startActivity(toAidl);
+            }
+        });
+
+        usb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toUsb = new Intent(MainActivity.this, USBActivity.class);
+                startActivity(toUsb);
+            }
+        });
+
+        serial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toSerial = new Intent(MainActivity.this, SerialActivity.class);
+                startActivity(toSerial);
+            }
+        });
+
+        wifi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toWifi = new Intent(MainActivity.this, WifiActivity.class);
+                startActivity(toWifi);
+            }
+        });
     }
 
-    public void run(View view){
-        try {
-            Response Res =  Print.textPlain(context,0,"Ugh");
-            TextView log = findViewById(R.id.tv_log);
-            log.setText(Res.getsCustomMessage());
-        }catch (Exception e){
-            TextView log = findViewById(R.id.tv_log);
-            Writer writer = new StringWriter();
-            e.printStackTrace(new PrintWriter(writer));
-            String s = writer.toString();
-            log.setText(s);
-        }
-    }
-
-    public void getDevices(View view){
-        try{
-            String list = ReturnDevices.getInstance().findDevices(context);
-            TextView log = findViewById(R.id.tv_log);
-            log.setText(list);
-        }catch (Exception e){
-            TextView log = findViewById(R.id.tv_log);
-            Writer writer = new StringWriter();
-            e.printStackTrace(new PrintWriter(writer));
-            String s = writer.toString();
-            log.setText(s);
-        }
-    }
-
-    public void print(View v){
-
-        com.ody.aidl.Services.Print.image(null,true);
-    }
 }

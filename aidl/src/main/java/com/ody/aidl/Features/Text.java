@@ -1,7 +1,7 @@
 package com.ody.aidl.Features;
 
 import com.ody.aidl.Helpers.Response;
-import com.ody.aidl.StartUp;
+import com.ody.aidl.AIDLProvider;
 import com.ody.aidl.Utils.AidlUtil;
 
 public class Text {
@@ -27,7 +27,7 @@ public class Text {
             response = Response.getInstance().compose(false, e, "Exception in Text.plainText");
         }
         finally {
-            AidlUtil.getInstance().disconnectPrinterService(StartUp.getApplication());
+            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
 
         return response;
@@ -47,7 +47,7 @@ public class Text {
             response = Response.getInstance().compose(false, e, "Exception in Text.plainText");
         }
         finally {
-            AidlUtil.getInstance().disconnectPrinterService(StartUp.getApplication());
+            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
 
         return response;

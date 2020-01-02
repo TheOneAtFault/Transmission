@@ -6,6 +6,7 @@
             android:authorities="${applicationId}.StartUp"
             android:exported="false"
             android:enabled="true"
-            android:name=".StartUp"/>
+            android:name=".AIDLProvider"
+            android:initOrder="10"/>
     </application>
 </manifest>

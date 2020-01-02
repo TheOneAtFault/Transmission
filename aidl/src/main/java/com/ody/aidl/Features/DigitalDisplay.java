@@ -3,8 +3,8 @@ package com.ody.aidl.Features;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.ody.aidl.AIDLProvider;
 import com.ody.aidl.Helpers.Response;
-import com.ody.aidl.StartUp;
 import com.ody.aidl.Utils.AidlUtil;
 
 import java.io.File;
@@ -23,7 +23,7 @@ public class DigitalDisplay {
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in DigitalDisplay.displayWake()");
         } finally {
-            AidlUtil.getInstance().disconnectPrinterService(StartUp.getApplication());
+            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
         return response;
     }
@@ -34,7 +34,7 @@ public class DigitalDisplay {
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in DigitalDisplay.displaySleep()");
         } finally {
-            AidlUtil.getInstance().disconnectPrinterService(StartUp.getApplication());
+            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
         return response;
     }
@@ -54,7 +54,7 @@ public class DigitalDisplay {
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in DigitalDisplay.lcdImage");
         } finally {
-            AidlUtil.getInstance().disconnectPrinterService(StartUp.getApplication());
+            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
         return response;
     }
@@ -65,7 +65,7 @@ public class DigitalDisplay {
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in lcdSingle - DigitalDisplay");
         } finally {
-            AidlUtil.getInstance().disconnectPrinterService(StartUp.getApplication());
+            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
         return response;
     }
@@ -76,7 +76,7 @@ public class DigitalDisplay {
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in lcdDouble - DigitalDisplay");
         } finally {
-            AidlUtil.getInstance().disconnectPrinterService(StartUp.getApplication());
+            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
         return response;
     }

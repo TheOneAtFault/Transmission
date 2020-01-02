@@ -9,16 +9,21 @@ import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.ody.aidl.Features.Image;
+import com.ody.aidl.Services.Print;
 import com.ody.aidl.Utils.AidlUtil;
 
 import java.lang.ref.WeakReference;
 
-public class StartUp extends ContentProvider {
+import static android.content.ContentValues.TAG;
+
+public class AIDLProvider extends ContentProvider {
     private static WeakReference<Context> mContext;
     private static WeakReference<Application> mApplication;
     private boolean isAidl;
@@ -34,11 +39,15 @@ public class StartUp extends ContentProvider {
     @Override
     public boolean onCreate() {
         Context context = getContext();
-        mContext = new WeakReference<Context>(context);
-        mApplication = new WeakReference<Application>((Application) context.getApplicationContext());
+        /*if (AidlUtil.initializeApp(getContext()) == null) {
+            Log.i(TAG, "FirebaseApp initialization unsuccessful");
+        } else {
+            Log.i(TAG, "FirebaseApp initialization successful");
+        }*/
         //aidl init
         isAidl = true;
-        AidlUtil.getInstance().connectPrinterService(mContext);
+        AidlUtil.getInstance();
+        //AidlUtil.getInstance().connectPrinterService(mContext);
         Toast.makeText(context,"Startup - context",Toast.LENGTH_SHORT).show();
 
         return false;
@@ -47,10 +56,10 @@ public class StartUp extends ContentProvider {
     @Override
     public void attachInfo(Context context, ProviderInfo info) {
         if (info == null){
-            throw new NullPointerException("StartUp ProviderInfo cannot be null.");
+            throw new NullPointerException("AIDLProvider ProviderInfo cannot be null.");
         }
         // if the authorities equal the library internal ones, set applicationId.
-        if ("com.ody.aidl.StartUp".equals(info.authority)) {
+        if ("com.ody.aidl.AIDLProvider".equals(info.authority)) {
             throw new IllegalStateException("Incorrect provider authority in manifest. Most likely due to a "
                     + "missing applicationId variable in application\'s build.gradle.");
         }

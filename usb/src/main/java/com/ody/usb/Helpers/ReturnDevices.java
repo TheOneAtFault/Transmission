@@ -26,7 +26,7 @@ public class ReturnDevices {
         while (iterator.hasNext())
         {
             mDevice = ((UsbDevice)usblist.get(iterator.next()));
-            response = response + mDevice.getVendorId() + "~" + mDevice.getDeviceName() + "~" + mDevice.getProductId() + "|";
+            response = response + "\n" + "VendorID: " +  mDevice.getVendorId() + "~" + "Device Name: " +  mDevice.getDeviceName() + "~" + "ProductID: " +  mDevice.getProductId() + "|";
 
             mDevice = null;
         }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
+import android.widget.Toast;
 
 import com.ody.usb.Classes.Shared.ESCPOSPrinter;
 import com.ody.usb.Classes.Shared.USBPort;

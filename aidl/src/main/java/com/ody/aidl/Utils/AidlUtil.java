@@ -9,13 +9,11 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.widget.Toast;
 
+import com.ody.aidl.AIDLProvider;
 import com.ody.aidl.Helpers.Response;
-import com.ody.aidl.R;
-import com.ody.aidl.StartUp;
 
 import java.lang.ref.WeakReference;
 
-import woyou.aidlservice.jiuiv5.ICallback;
 import woyou.aidlservice.jiuiv5.IWoyouService;
 
 public class AidlUtil {
@@ -85,7 +83,7 @@ public class AidlUtil {
     public void printBitmap(Bitmap bitmap, int orientation) {
         if (woyouService == null) {
             //re-establish
-            connectPrinterService(StartUp.getCurContext());
+            connectPrinterService(AIDLProvider.getCurContext());
             //Toast.makeText(context, "Service is null on: printBitmap", Toast.LENGTH_LONG).show();
             //return;
             if (woyouService == null){

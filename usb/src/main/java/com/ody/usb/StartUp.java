@@ -16,8 +16,6 @@ import com.ody.usb.Features.Text;
 
 public class StartUp extends ContentProvider {
     //private static WeakReference<Context> mContext;
-    private static Context cc;
-    private String feature = PackageManager.FEATURE_BLUETOOTH;
 
     @Override
     public boolean onCreate() {

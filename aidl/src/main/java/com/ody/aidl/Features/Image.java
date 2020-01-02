@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.ody.aidl.Helpers.Response;
 import com.ody.aidl.R;
-import com.ody.aidl.StartUp;
+import com.ody.aidl.AIDLProvider;
 import com.ody.aidl.Utils.AidlUtil;
 
 
@@ -20,14 +20,16 @@ public class Image {
     private static int myorientation;
     private static Response response;
     Context context;
-    private static Image mImage = new Image();
+    private static Image INSTANCE;
 
     private Image() {
-
     }
 
     public static Image getInstance() {
-        return mImage;
+        if (INSTANCE == null) {
+            INSTANCE = new Image();
+        }
+        return INSTANCE;
     }
 
     public Response print(@Nullable String image, int inTargetDensity, int inDensity, boolean cut) {
@@ -57,7 +59,7 @@ public class Image {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inTargetDensity = 160;
                 options.inDensity = 160;
-                Bitmap bitmap = BitmapFactory.decodeResource(StartUp.getApplication().getResources(), R.mipmap.ody, options);
+                Bitmap bitmap = BitmapFactory.decodeResource(AIDLProvider.getApplication().getResources(), R.mipmap.ody, options);
 
                 AidlUtil.getInstance().printBitmap(bitmap, myorientation);
                 if (cut) {
@@ -71,7 +73,7 @@ public class Image {
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in image aidl");
         } finally {
-            AidlUtil.getInstance().disconnectPrinterService(StartUp.getApplication());
+            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
 
         return response;
