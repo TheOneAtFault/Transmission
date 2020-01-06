@@ -1,6 +1,9 @@
 package com.ody.usb.Services;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+
+import androidx.annotation.Nullable;
 
 import com.ody.usb.Features.Image;
 import com.ody.usb.Features.Text;
@@ -28,8 +31,8 @@ public class Print {
      * @param imagePath = image file path
      * @return
      */
-    public static Response image(Context context, int vendorId, String imagePath) {
-        Response response = Image.getInstance().plainImage(context, vendorId, imagePath);
+    public static Response image(Context context, int vendorId, String imagePath, @Nullable Bitmap image) {
+        Response response = Image.getInstance().plainImage(context, vendorId, imagePath, image);
         return response;
     }
 }

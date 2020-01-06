@@ -3,8 +3,11 @@ package com.ody.usb.Features;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
+
+import androidx.annotation.Nullable;
 
 import com.ody.usb.Classes.Shared.ESCPOSPrinter;
 import com.ody.usb.Classes.Shared.USBPort;
@@ -36,7 +39,7 @@ public class Image {
         mContext = context;
     }
 
-    public Response plainImage(Context context, int vendorId, String path){
+    public Response plainImage(Context context, int vendorId, String path, @Nullable Bitmap image){
         //set the application context passed from the call
         connectService(context);
 
@@ -78,7 +81,7 @@ public class Image {
                             portConnection = port.connect_device(mDevice);
                             ESCPOSPrinter POSPrinter = new ESCPOSPrinter(portConnection);
                             //Get on with it
-                            POSPrinter.printBitmap(path, 1); //0 - left align, 1 - center align, 2 - right align
+                            POSPrinter.printBitmap(path, 1, image); //0 - left align, 1 - center align, 2 - right align
                             response = Response.getInstance().compose(true,null,"Success");
                         }
                     }

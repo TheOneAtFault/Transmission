@@ -1,5 +1,9 @@
 package com.ody.usb.Classes.Shared;
 
+import android.graphics.Bitmap;
+
+import androidx.annotation.Nullable;
+
 import com.ody.usb.Classes.Image.ImageLoader;
 import com.ody.usb.Classes.Image.MobileImageConverter;
 import com.ody.usb.Classes.RequestQueue;
@@ -43,16 +47,16 @@ public class ESCPOSPrinter {
         this.olepos.parseJposCMD(data);
     }
 
-    public int printBitmap(String bitmapName, int alignment)
+    public int printBitmap(String bitmapName, int alignment, @Nullable Bitmap image)
             throws IOException {
-        return printBitmap(bitmapName, alignment, 0, 0);
+        return printBitmap(bitmapName, alignment, 0, 0, image);
     }
 
-    private int printBitmap(String bitmapName, int alignment, int size, int mode)
+    private int printBitmap(String bitmapName, int alignment, int size, int mode,@Nullable Bitmap image)
             throws IOException
     {
         ImageLoader imageLoader = new ImageLoader();
-        int[][] img = imageLoader.imageLoad(bitmapName);
+        int[][] img = imageLoader.imageLoad(bitmapName, image);
         if (img != null)
         {
             MobileImageConverter mConverter = new MobileImageConverter();

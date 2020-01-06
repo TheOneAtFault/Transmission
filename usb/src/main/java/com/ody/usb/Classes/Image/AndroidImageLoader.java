@@ -3,6 +3,8 @@ package com.ody.usb.Classes.Image;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import androidx.annotation.Nullable;
+
 import java.io.IOException;
 
 public class AndroidImageLoader implements ImageLoaderIF {
@@ -77,6 +79,17 @@ public class AndroidImageLoader implements ImageLoaderIF {
             throws IOException {
         int[][] array = null;
         Bitmap image = getImage(filepath);
+        if (image != null) {
+            array = getByteArray(image);
+        }
+        return array;
+    }
+
+    public int[][] imageLoad(String filepath, @Nullable Bitmap bitmapImage)
+            throws IOException {
+        int[][] array = null;
+        //Bitmap image = getImage(filepath);
+        Bitmap image = bitmapImage;
         if (image != null) {
             array = getByteArray(image);
         }
