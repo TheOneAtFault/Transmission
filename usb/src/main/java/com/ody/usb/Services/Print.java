@@ -31,8 +31,8 @@ public class Print {
      * @param imagePath = image file path
      * @return
      */
-    public static Response image(Context context, int vendorId, String imagePath, @Nullable Bitmap image) {
-        Response response = Image.getInstance().plainImage(context, vendorId, imagePath, image);
+    public static Response image(Context context, int vendorId, @Nullable Bitmap image) {
+        Response response = Image.getInstance().plainImage(context, vendorId, image);
         return response;
     }
 }

@@ -1,9 +1,12 @@
 package com.ody.usb.Helpers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -17,19 +20,23 @@ public class ReturnDevices {
         return devices;
     }
 
-    public String findDevices(Context context){
-
-        mUsbManager = ((UsbManager)context.getSystemService("usb"));
+    public int[] findDevices(Context context) {
+        ArrayList<Integer> vendorId = new ArrayList();
+        mUsbManager = ((UsbManager) context.getSystemService("usb"));
 
         HashMap<String, UsbDevice> usblist = mUsbManager.getDeviceList();
         Iterator<String> iterator = usblist.keySet().iterator();
-        while (iterator.hasNext())
-        {
-            mDevice = ((UsbDevice)usblist.get(iterator.next()));
-            response = response + "\n" + "VendorID: " +  mDevice.getVendorId() + "~" + "Device Name: " +  mDevice.getDeviceName() + "~" + "ProductID: " +  mDevice.getProductId() + "|";
-
+        while (iterator.hasNext()) {
+            mDevice = ((UsbDevice) usblist.get(iterator.next()));
+            vendorId.add(mDevice.getVendorId());
             mDevice = null;
         }
-        return response;
+
+        int[] ret = new int[vendorId.size()];
+        for (int i = 0; i < ret.length; i++) {
+            ret[i] = vendorId.get(i).intValue();
+        }
+
+        return ret;
     }
 }

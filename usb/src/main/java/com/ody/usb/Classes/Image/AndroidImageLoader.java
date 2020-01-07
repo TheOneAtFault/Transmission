@@ -85,13 +85,11 @@ public class AndroidImageLoader implements ImageLoaderIF {
         return array;
     }
 
-    public int[][] imageLoad(String filepath, @Nullable Bitmap bitmapImage)
+    public int[][] imageLoad(@Nullable Bitmap bitmapImage)
             throws IOException {
         int[][] array = null;
-        //Bitmap image = getImage(filepath);
-        Bitmap image = bitmapImage;
-        if (image != null) {
-            array = getByteArray(image);
+        if (bitmapImage != null) {
+            array = getByteArray(bitmapImage);
         }
         return array;
     }

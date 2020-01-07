@@ -9,8 +9,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,16 +26,34 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
-public class USBActivity extends AppCompatActivity {
+public class USBActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final int GET_FROM_GALLERY = 1;
     private String selectedImage = "";
+    private ArrayList<String> list = new ArrayList<>();
+    private int vendorId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usb);
+
+        //get usb devices and fill spinner
+        Spinner spinner = (Spinner) findViewById(R.id.spnr_usb_devices);
+        spinner.setOnItemSelectedListener(this);
+
+        int[] vendors = getDevices();
+
+        for (int i = 0; i < vendors.length; i++) {
+            list.add(String.valueOf(vendors[i]));
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         Button textPrint = findViewById(R.id.usb_btn_printText);
         Button textImage = findViewById(R.id.usb_btn_printImage);
@@ -57,39 +79,33 @@ public class USBActivity extends AppCompatActivity {
     }
 
     //print Text
-    public void printText(){
-       Response response =  Print.textPlain(this,1208,"Test usb text printing in module.");
+    public void printText() {
+        Response response = Print.textPlain(this, vendorId, "Test usb text printing in module.\n");
         TextView textView = findViewById(R.id.tv_usb_log);
         textView.setText(response.getsErrorMessage() + "\n" + response.getsCustomMessage());
     }
 
     //Print Image
-    public void printImage(){
-        //startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+    public void printImage() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/");
-        //We pass an extra array with the accepted mime types. This will ensure only components with these MIME types as targeted.
+        //We pass an extra array with the accepted mime types. This will ensure only components
+        // with these MIME types are targeted.
         String[] mimeTypes = {"image/jpeg", "image/png"};
-        intent.putExtra(Intent.EXTRA_MIME_TYPES,mimeTypes);
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
 
         startActivityForResult(Intent.createChooser(intent, "Select Image"), GET_FROM_GALLERY);
-
-
-//        textView.setText(response.getsErrorMessage() + "\n" + response.getsCustomMessage());
     }
 
     //Show Devices
-    public void getDevices(){
-        String result = "No devices found";
-        result = Devices.getAll(this);
-        TextView textView = findViewById(R.id.tv_usb_log);
-        textView.setText(result);
+    public int[] getDevices() {
+        return Devices.getAll(this);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == GET_FROM_GALLERY){
+        if (requestCode == GET_FROM_GALLERY) {
             //content URI
             Uri selectedImage = data.getData();
             Bitmap bitmap = null;
@@ -100,9 +116,9 @@ public class USBActivity extends AppCompatActivity {
             }
             ImageView ivThumbnailPhoto = findViewById(R.id.imageView);
             ivThumbnailPhoto.setImageBitmap(bitmap);
-            try{
-                Response response =  Print.image(this,1208,"Test usb text printing in module.", bitmap);
-            }catch (Exception e){
+            try {
+                Response response = Print.image(this, vendorId, bitmap);
+            } catch (Exception e) {
                 TextView log = findViewById(R.id.tv_usb_log);
                 Writer writer = new StringWriter();
                 e.printStackTrace(new PrintWriter(writer));
@@ -111,7 +127,20 @@ public class USBActivity extends AppCompatActivity {
             }
 
 
-            Toast.makeText(this, "caught",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "caught", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String text = adapterView.getSelectedItem().toString();
+        vendorId = Integer.parseInt(text);
+        TextView info = (TextView) findViewById(R.id.tv_usb_log);
+        info.setText(vendorId+"");
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

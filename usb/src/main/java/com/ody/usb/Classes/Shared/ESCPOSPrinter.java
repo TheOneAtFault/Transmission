@@ -47,22 +47,21 @@ public class ESCPOSPrinter {
         this.olepos.parseJposCMD(data);
     }
 
-    public int printBitmap(String bitmapName, int alignment, @Nullable Bitmap image)
+    public int printBitmap( int alignment, @Nullable Bitmap image)
             throws IOException {
-        return printBitmap(bitmapName, alignment, 0, 0, image);
+        return printBitmap(alignment, 0, 0, image);
     }
 
-    private int printBitmap(String bitmapName, int alignment, int size, int mode,@Nullable Bitmap image)
+    private int printBitmap(int alignment, int size, int mode,@Nullable Bitmap image)
             throws IOException
     {
         ImageLoader imageLoader = new ImageLoader();
-        int[][] img = imageLoader.imageLoad(bitmapName, image);
+        int[][] img = imageLoader.imageLoad(image);
         if (img != null)
         {
             MobileImageConverter mConverter = new MobileImageConverter();
             byte[] bimg = mConverter.convertBitImage(img, imageLoader.getThresHoldValue());
             this.requestQueue.addRequest(this.escpos.ESC_a(alignment));
-
 
             this.requestQueue.addRequest(this.escpos.GS_v(size, mConverter.getxL(), mConverter.getxH(), mConverter.getyL(), mConverter.getyH(), bimg));
             return 0;

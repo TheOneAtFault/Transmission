@@ -35,6 +35,14 @@ public class Text {
         mContext = context;
     }
 
+
+    /**
+     * Print text with the usb module
+     * @param context
+     * @param vendorId
+     * @param content
+     * @return response object
+     */
     public Response plain(Context context, int vendorId, String content){
         //set variables
         Response response = Response.getInstance();

@@ -39,8 +39,9 @@ public class Image {
         mContext = context;
     }
 
-    public Response plainImage(Context context, int vendorId, String path, @Nullable Bitmap image){
+    public Response plainImage(Context context, int vendorId, @Nullable Bitmap image){
         //set the application context passed from the call
+
         connectService(context);
 
         //register the required permission
@@ -56,10 +57,9 @@ public class Image {
         Iterator<String> iterator = usblist.keySet().iterator();
 
         while (iterator.hasNext()){
-            mDevice = usblist.get(iterator.next());
+            mDevice = (UsbDevice)usblist.get(iterator.next());
             if (mDevice.getVendorId() == vendorId){
                 //validate against vendorid
-                mDevice = (UsbDevice)usblist.get(iterator.next());
                 if(mDevice.getVendorId() == vendorId)
                 {
                     try
@@ -81,7 +81,7 @@ public class Image {
                             portConnection = port.connect_device(mDevice);
                             ESCPOSPrinter POSPrinter = new ESCPOSPrinter(portConnection);
                             //Get on with it
-                            POSPrinter.printBitmap(path, 1, image); //0 - left align, 1 - center align, 2 - right align
+                            POSPrinter.printBitmap( 1, image); //0 - left align, 1 - center align, 2 - right align
                             response = Response.getInstance().compose(true,null,"Success");
                         }
                     }
