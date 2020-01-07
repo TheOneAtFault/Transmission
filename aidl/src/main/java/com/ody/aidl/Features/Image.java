@@ -78,4 +78,50 @@ public class Image {
 
         return response;
     }
+
+    public Response print(@Nullable Bitmap image, int inTargetDensity, int inDensity, boolean cut) {
+        try {
+            if (inTargetDensity != 0) {
+                IN_TARGET_DENSITY = inTargetDensity;
+            }
+            if (inDensity != 0) {
+                IN_DENSITY = inDensity;
+            }
+
+            //set options
+            //todo add options if required
+            if (image != null) {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inTargetDensity = 160;
+                options.inDensity = 160;
+
+                AidlUtil.getInstance().printBitmap(image, myorientation);
+                if (cut) {
+                    AidlUtil.getInstance().makeCut();
+                }
+                //set response
+                response = Response.getInstance().compose(true, null, "success");
+            } else if (image == null) {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inTargetDensity = 160;
+                options.inDensity = 160;
+                Bitmap bitmap = BitmapFactory.decodeResource(AIDLProvider.getApplication().getResources(), R.mipmap.ody, options);
+
+                AidlUtil.getInstance().printBitmap(bitmap, myorientation);
+                if (cut) {
+                    AidlUtil.getInstance().makeCut();
+                }
+                //set response
+                response = Response.getInstance().compose(true, null, "success");
+            } else {
+                response = Response.getInstance().compose(false, null, "Image file is empty.");
+            }
+        } catch (Exception e) {
+            response = Response.getInstance().compose(false, e, "Exception in image aidl");
+        } finally {
+            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
+        }
+
+        return response;
+    }
 }

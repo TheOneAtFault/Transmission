@@ -1,12 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ody.aidl" >
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    <application>
-        <provider
-            android:authorities="${applicationId}.StartUp"
-            android:exported="false"
-            android:enabled="true"
-            android:name=".AIDLProvider"
-            android:initOrder="10"/>
+    <application
+        android:name="BaseApp">
+<!--        <provider-->
+<!--            android:authorities="${applicationId}.StartUp"-->
+<!--            android:exported="false"-->
+<!--            android:enabled="true"-->
+<!--            android:name=".BaseApp"-->
+<!--            android:initOrder="10"/>-->
     </application>
 </manifest>

@@ -20,8 +20,17 @@ public class Print {
         }
         return response;
     }
-
+    //image as string
     public static Response image(@Nullable String data, boolean cut) {
+        try {
+            response = Image.getInstance().print(data, 0, 0, cut);
+        } catch (Exception e) {
+            response = Response.getInstance().compose(false, e, "Exception in Print - Image");
+        }
+        return response;
+    }
+    //image as bitmap
+    public static Response image(@Nullable Bitmap data, boolean cut) {
         try {
             response = Image.getInstance().print(data, 0, 0, cut);
         } catch (Exception e) {

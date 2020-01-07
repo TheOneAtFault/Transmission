@@ -9,15 +9,15 @@ public class Text {
     private Response response;
 
     public static Text getInstance() {
-        return mText;
+        return mText = new Text();
     }
 
     public Response plain(String content, boolean cut) {
         try {
             if (content != "") {
                 byte[] btContent = content.getBytes();
-                AidlUtil.getInstance().sendRawData(btContent);
-                if (cut) {
+                Response response = AidlUtil.getInstance().sendRawData(btContent);
+                if (response.isSuccess() && cut) {
                     AidlUtil.getInstance().makeCut();
                 }
             } else {

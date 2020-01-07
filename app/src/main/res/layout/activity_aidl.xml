@@ -7,7 +7,7 @@
     tools:context=".AIDLActivity">
 
     <Button
-        android:id="@+id/usb_btn_printText"
+        android:id="@+id/aidl_btn_printText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/usb_btn_printImage"
+        android:id="@+id/aidl_btn_printImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -32,10 +32,10 @@
         android:text="Print Image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usb_btn_printText" />
+        app:layout_constraintTop_toBottomOf="@+id/aidl_btn_printText" />
 
     <Button
-        android:id="@+id/usb_btn_pollingDisplay"
+        android:id="@+id/aidl_btn_pollingDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -46,10 +46,10 @@
         android:text="Polling Display"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usb_btn_printImage" />
+        app:layout_constraintTop_toBottomOf="@+id/aidl_btn_printImage" />
 
     <Button
-        android:id="@+id/btn_drawerKick"
+        android:id="@+id/aidl_btn_drawerKick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -60,10 +60,10 @@
         android:text="Kick Drawer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usb_btn_pollingDisplay" />
+        app:layout_constraintTop_toBottomOf="@+id/aidl_btn_pollingDisplay" />
 
     <Button
-        android:id="@+id/btn_generateQR"
+        android:id="@+id/aidl_btn_generateQR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -74,5 +74,38 @@
         android:text="Generate QR"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_drawerKick" />
+        app:layout_constraintTop_toBottomOf="@+id/aidl_btn_drawerKick" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aidl_btn_generateQR">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/aidl_tv_log"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Log here" />
+
+            <ImageView
+                android:id="@+id/aidl_iv_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_menu_camera" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

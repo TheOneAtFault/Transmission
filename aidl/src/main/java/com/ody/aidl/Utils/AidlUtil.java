@@ -32,13 +32,13 @@ public class AidlUtil {
         return mAidlUtil;
     }
 
-    public void connectPrinterService(WeakReference<Context> context) {
-        this.context = context.get().getApplicationContext();
+    public void connectPrinterService(Context context) {
+        this.context = context.getApplicationContext();
         Intent intent = new Intent();
         intent.setPackage(SERVICE＿PACKAGE);
         intent.setAction(SERVICE＿ACTION);
-        context.get().getApplicationContext().startService(intent);
-        context.get().getApplicationContext().bindService(intent, connService, Context.BIND_AUTO_CREATE);
+        context.getApplicationContext().startService(intent);
+        context.getApplicationContext().bindService(intent, connService, Context.BIND_AUTO_CREATE);
     }
 
     public void disconnectPrinterService(Context context) {
@@ -83,7 +83,7 @@ public class AidlUtil {
     public void printBitmap(Bitmap bitmap, int orientation) {
         if (woyouService == null) {
             //re-establish
-            connectPrinterService(AIDLProvider.getCurContext());
+            //connectPrinterService(AIDLProvider.getCurContext());
             //Toast.makeText(context, "Service is null on: printBitmap", Toast.LENGTH_LONG).show();
             //return;
             if (woyouService == null){
