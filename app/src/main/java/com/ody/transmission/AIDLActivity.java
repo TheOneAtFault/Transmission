@@ -66,7 +66,11 @@ public class AIDLActivity extends AppCompatActivity {
         qr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Response response =  Print.qr("",true);
+                TextView log = (TextView) findViewById(R.id.aidl_tv_log);
+                if (!response.isSuccess()){
+                    log.setText(response.getsErrorMessage());
+                }
             }
         });
         polling.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +99,7 @@ public class AIDLActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            ImageView ivThumbnailPhoto = findViewById(R.id.imageView);
+            ImageView ivThumbnailPhoto = findViewById(R.id.aidl_iv_image);
             ivThumbnailPhoto.setImageBitmap(bitmap);
             try {
                 Response response = Print.image(bitmap,true);
@@ -112,6 +116,7 @@ public class AIDLActivity extends AppCompatActivity {
     }
 
     //QR
+
     //Polling
     //KickDrawer
 

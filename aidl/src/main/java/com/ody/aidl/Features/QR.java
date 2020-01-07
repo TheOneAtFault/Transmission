@@ -14,7 +14,7 @@ public class QR {
     private static QR mQR;
 
     public static QR getInstance() {
-        return mQR;
+        return mQR = new QR();
     }
 
     /**
