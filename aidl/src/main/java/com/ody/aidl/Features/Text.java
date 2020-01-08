@@ -16,18 +16,16 @@ public class Text {
         try {
             if (content != "") {
                 byte[] btContent = content.getBytes();
-                Response response = AidlUtil.getInstance().sendRawData(btContent);
+                response = AidlUtil.getInstance().sendRawData(btContent);
                 if (response.isSuccess() && cut) {
                     AidlUtil.getInstance().makeCut();
                 }
+
             } else {
-                response = Response.getInstance().compose(true, null, "Provided content was empty");
+                response = Response.getInstance().compose(false, null, "Provided content was empty");
             }
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in Text.plainText");
-        }
-        finally {
-            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
 
         return response;
@@ -36,7 +34,7 @@ public class Text {
     public Response asBytes(byte[] content, boolean cut) {
         try {
             if (content.length > 0) {
-                AidlUtil.getInstance().sendRawData(content);
+                response = AidlUtil.getInstance().sendRawData(content);
                 if (cut) {
                     AidlUtil.getInstance().makeCut();
                 }
@@ -47,7 +45,7 @@ public class Text {
             response = Response.getInstance().compose(false, e, "Exception in Text.plainText");
         }
         finally {
-            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
+            //AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
 
         return response;

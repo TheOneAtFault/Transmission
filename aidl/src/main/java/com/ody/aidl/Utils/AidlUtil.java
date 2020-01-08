@@ -86,7 +86,7 @@ public class AidlUtil {
             //connectPrinterService(AIDLProvider.getCurContext());
             //Toast.makeText(context, "Service is null on: printBitmap", Toast.LENGTH_LONG).show();
             //return;
-            if (woyouService == null){
+            if (woyouService == null) {
                 Toast.makeText(context, "Service is null on: printBitmap", Toast.LENGTH_LONG).show();
                 return;
             }
@@ -126,6 +126,7 @@ public class AidlUtil {
         if (woyouService != null) {
             Toast.makeText(context, "Make Cut", Toast.LENGTH_SHORT);
             try {
+                woyouService.lineWrap(3, null);
                 woyouService.cutPaper(null);
             } catch (RemoteException e) {
                 Toast.makeText(context, "RemoteException on: makeCut", Toast.LENGTH_SHORT);
@@ -169,6 +170,7 @@ public class AidlUtil {
         if (woyouService != null) {
             try {
                 woyouService.sendLCDCommand(4);
+                woyouService.sendLCDBitmap(bitmap, null);
                 response = Response.getInstance().compose(true, null, "Success");
             } catch (Exception e) {
                 response = Response.getInstance().compose(false, e, "Exception on: lcdBitmap - Aidl");

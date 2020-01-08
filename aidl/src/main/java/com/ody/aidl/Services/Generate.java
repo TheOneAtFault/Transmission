@@ -8,7 +8,8 @@ public class Generate {
 
     public static Response qr(String data) {
         try {
-            response = QRGenerator.getInstance().run(data);
+            //todo: return type
+            QRGenerator.getInstance().run(data);
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in Generate.qr()");
         }

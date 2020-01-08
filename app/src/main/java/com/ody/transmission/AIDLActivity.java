@@ -45,11 +45,19 @@ public class AIDLActivity extends AppCompatActivity {
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Response response =  Print.text("AIDL Text Print Test \n",true);
-               TextView log = (TextView) findViewById(R.id.aidl_tv_log);
-               if (!response.isSuccess()){
-                   log.setText(response.getsErrorMessage());
-               }
+                try {
+                    Response response = Print.text("AIDL Text Print Test \n", true);
+                    TextView log = (TextView) findViewById(R.id.aidl_tv_log);
+                    if (!response.isSuccess()) {
+                        log.setText(response.getsErrorMessage());
+                    }
+                } catch (Exception e) {
+                    TextView log = findViewById(R.id.aidl_tv_log);
+                    Writer writer = new StringWriter();
+                    e.printStackTrace(new PrintWriter(writer));
+                    String s = writer.toString();
+                    log.setText(s);
+                }
             }
         });
         image.setOnClickListener(new View.OnClickListener() {
@@ -66,9 +74,9 @@ public class AIDLActivity extends AppCompatActivity {
         qr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Response response =  Print.qr("",true);
+                Response response = Print.qr("", true);
                 TextView log = (TextView) findViewById(R.id.aidl_tv_log);
-                if (!response.isSuccess()){
+                if (!response.isSuccess()) {
                     log.setText(response.getsErrorMessage());
                 }
             }
@@ -76,7 +84,8 @@ public class AIDLActivity extends AppCompatActivity {
         polling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(AIDLActivity.this, AIDLPollingActivity.class);
+                startActivity(intent);
             }
         });
         kickdrawer.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +111,7 @@ public class AIDLActivity extends AppCompatActivity {
             ImageView ivThumbnailPhoto = findViewById(R.id.aidl_iv_image);
             ivThumbnailPhoto.setImageBitmap(bitmap);
             try {
-                Response response = Print.image(bitmap,true);
+                Response response = Print.image(bitmap, true);
             } catch (Exception e) {
                 TextView log = findViewById(R.id.tv_usb_log);
                 Writer writer = new StringWriter();

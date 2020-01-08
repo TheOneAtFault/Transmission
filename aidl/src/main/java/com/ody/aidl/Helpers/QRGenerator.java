@@ -15,28 +15,29 @@ public class QRGenerator {
     private Response response;
 
     public static QRGenerator getInstance() {
-        return mQRenerator;
+        return mQRenerator = new QRGenerator();
     }
 
-    public Response run(String data) {
+    public Bitmap run(String data) {
         int qrCodeDimention = 300;
+        Bitmap bitmap = null;
         try {
             QRCodeEncoder qrCodeEncoder =
                     new QRCodeEncoder(data, null, Contents.Type.TEXT,
                             BarcodeFormat.QR_CODE.toString(), qrCodeDimention);
 
-            Bitmap bitmap = qrCodeEncoder.encodeAsBitmap();
+            bitmap = qrCodeEncoder.encodeAsBitmap();
 
             ByteArrayOutputStream OutputStreamAsByteArray = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, OutputStreamAsByteArray);
             byte[] toByteArray = OutputStreamAsByteArray.toByteArray();
-            response = Response.getInstance().compose(true, null, Base64.encodeToString(toByteArray, Base64.DEFAULT));
+            //response = Response.getInstance().compose(true, null, Base64.encodeToString(toByteArray, Base64.DEFAULT));
         } catch (WriterException e) {
-            response = Response.getInstance().compose(false, e, "WriterException in QRGenerator.run()");
+            //response = Response.getInstance().compose(false, e, "WriterException in QRGenerator.run()");
         } catch (Exception e) {
-            response = Response.getInstance().compose(false, e, "Exception in QRGenerator.run()");
+            //response = Response.getInstance().compose(false, e, "Exception in QRGenerator.run()");
         }
 
-        return response;
+        return bitmap;
     }
 }

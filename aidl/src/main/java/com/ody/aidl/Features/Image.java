@@ -73,7 +73,7 @@ public class Image {
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in image aidl");
         } finally {
-            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
+            //AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
 
         return response;
@@ -119,7 +119,7 @@ public class Image {
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in image aidl");
         } finally {
-            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
+            //AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
 
         return response;

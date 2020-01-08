@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AIDLActivity">
+    tools:context=".AIDLPollingActivity">
 
     <Button
-        android:id="@+id/aidl_btn_printText"
+        android:id="@+id/aidlpolling_btn_wake"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -15,13 +15,14 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Print Text"
-        app:layout_constraintEnd_toStartOf="@+id/aidl_btn_printImage"
+        android:text="Wake"
+        android:onClick="wake"
+        app:layout_constraintEnd_toStartOf="@+id/aidlpolling_btn_post"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/aidl_btn_printImage"
+        android:id="@+id/aidlpolling_btn_post"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -29,13 +30,13 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Print Image"
-        app:layout_constraintEnd_toStartOf="@+id/aidl_btn_pollingDisplay"
-        app:layout_constraintStart_toEndOf="@+id/aidl_btn_printText"
+        android:text="Post"
+        app:layout_constraintEnd_toStartOf="@+id/aidlpolling_btn_clear"
+        app:layout_constraintStart_toEndOf="@+id/aidlpolling_btn_wake"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/aidl_btn_pollingDisplay"
+        android:id="@+id/aidlpolling_btn_clear"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -43,13 +44,14 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Polling Display"
-        app:layout_constraintEnd_toStartOf="@+id/aidl_btn_drawerKick"
-        app:layout_constraintStart_toEndOf="@+id/aidl_btn_printImage"
+        android:text="Clear"
+        android:onClick="clear"
+        app:layout_constraintEnd_toStartOf="@+id/aidlpolling_btn_sleep"
+        app:layout_constraintStart_toEndOf="@+id/aidlpolling_btn_post"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/aidl_btn_drawerKick"
+        android:id="@+id/aidlpolling_btn_sleep"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -57,25 +59,59 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:text="Kick Drawer"
+        android:text="Sleep"
+        android:onClick="sleep"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/aidl_btn_pollingDisplay"
+        app:layout_constraintStart_toEndOf="@+id/aidlpolling_btn_clear"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/aidlpolling_edt_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aidlpolling_btn_wake" />
+
+    <ImageView
+        android:id="@+id/aidlpolling_iv_qr"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aidlpolling_edt_content"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
     <Button
-        android:id="@+id/aidl_btn_generateQR"
+        android:id="@+id/aidlpolling_btn_qr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:text="Generate QR"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aidl_btn_printText" />
+        app:layout_constraintTop_toBottomOf="@+id/aidlpolling_iv_qr" />
+
+    <Button
+        android:id="@+id/aidlpolling_btn_bitmap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="Generate Bitmap"
+        app:layout_constraintBaseline_toBaselineOf="@+id/aidlpolling_btn_qr"
+        app:layout_constraintStart_toEndOf="@+id/aidlpolling_btn_qr" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -89,7 +125,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aidl_btn_generateQR">
+        app:layout_constraintTop_toBottomOf="@+id/aidlpolling_btn_qr">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -97,16 +133,10 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/aidl_tv_log"
+                android:id="@+id/aidlpolling_tv_log"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Log here" />
-
-            <ImageView
-                android:id="@+id/aidl_iv_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/ic_menu_camera" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

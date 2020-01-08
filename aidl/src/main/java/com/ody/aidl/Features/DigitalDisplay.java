@@ -23,7 +23,7 @@ public class DigitalDisplay {
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in DigitalDisplay.displayWake()");
         } finally {
-            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
+            //AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
         return response;
     }
@@ -34,7 +34,7 @@ public class DigitalDisplay {
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in DigitalDisplay.displaySleep()");
         } finally {
-            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
+           // AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
         return response;
     }
@@ -54,7 +54,27 @@ public class DigitalDisplay {
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in DigitalDisplay.lcdImage");
         } finally {
-            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
+           //AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
+        }
+        return response;
+    }
+
+    public Response displayImage(Bitmap bitmap) {
+        try {
+            //chack file exists
+            //File file = new File(filePath);
+            if (bitmap != null) {
+                //convert to itty bitty something
+                //Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+                response = AidlUtil.getInstance().lcdBitmap(bitmap);
+            } else {
+                response = Response.getInstance().compose(false, null, "File does not exist");
+            }
+
+        } catch (Exception e) {
+            response = Response.getInstance().compose(false, e, "Exception in DigitalDisplay.lcdImage");
+        } finally {
+            //AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
         return response;
     }
@@ -65,10 +85,11 @@ public class DigitalDisplay {
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in lcdSingle - DigitalDisplay");
         } finally {
-            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
+            //AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
         return response;
     }
+
 
     public Response displayDouble(String lineOne, String lineTwo) {
         try {
@@ -76,7 +97,7 @@ public class DigitalDisplay {
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in lcdDouble - DigitalDisplay");
         } finally {
-            AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
+            //AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         }
         return response;
     }

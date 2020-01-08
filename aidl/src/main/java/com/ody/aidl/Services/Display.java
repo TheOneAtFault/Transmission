@@ -1,5 +1,7 @@
 package com.ody.aidl.Services;
 
+import android.graphics.Bitmap;
+
 import com.ody.aidl.Features.DigitalDisplay;
 import com.ody.aidl.Helpers.Response;
 
@@ -25,6 +27,15 @@ public class Display {
     }
 
     public static Response lcdBitmap(String file) {
+        try {
+            response = DigitalDisplay.getInstance().displayImage(file);
+        } catch (Exception e) {
+            response = Response.getInstance().compose(false, e, "Exception in lcdBitmap");
+        }
+        return response;
+    }
+
+    public static Response lcdBitmap(Bitmap file) {
         try {
             response = DigitalDisplay.getInstance().displayImage(file);
         } catch (Exception e) {
