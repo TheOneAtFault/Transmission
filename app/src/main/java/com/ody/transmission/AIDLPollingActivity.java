@@ -45,7 +45,7 @@ public class AIDLPollingActivity extends AppCompatActivity {
                 if (bitmap != null) {
                     Response responses = Display.lcdBitmap(bitmap);
                     if (!responses.isSuccess()){
-                        Toast.makeText(AIDLPollingActivity.this,"Polling bitmap fail",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(AIDLPollingActivity.this,"Polling bitmap fail",Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     //Toast.makeText(AIDLPollingActivity.this, ""+ lines[0] + lines[1] , Toast.LENGTH_SHORT).show();
@@ -69,7 +69,7 @@ public class AIDLPollingActivity extends AppCompatActivity {
         qr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(AIDLPollingActivity.this, "QR initiated" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AIDLPollingActivity.this, "QR initiated" , Toast.LENGTH_SHORT).show();
                 String content = getContent();
                 if (content != null) {
                     try{
@@ -79,6 +79,9 @@ public class AIDLPollingActivity extends AppCompatActivity {
                             bitmap = newBitmap;
                             ImageView ivQR = (ImageView) findViewById(R.id.aidlpolling_iv_qr);
                             ivQR.setImageBitmap(bitmap);
+                            if (bitmap != null){
+                                bitmap = Bitmap.createScaledBitmap(bitmap,35,35,false);
+                            }
                         }
                     }catch (Exception e){
                         TextView log = findViewById(R.id.aidlpolling_tv_log);

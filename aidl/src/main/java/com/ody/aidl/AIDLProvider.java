@@ -48,7 +48,7 @@ public class AIDLProvider extends ContentProvider {
         isAidl = true;
         AidlUtil.getInstance();
         //AidlUtil.getInstance().connectPrinterService(mContext);
-        Toast.makeText(context,"Startup - context",Toast.LENGTH_SHORT).show();
+       // Toast.makeText(context,"Startup - context",Toast.LENGTH_SHORT).show();
 
         return false;
     }

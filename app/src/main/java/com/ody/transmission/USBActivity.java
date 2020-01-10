@@ -127,7 +127,7 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
             }
 
 
-            Toast.makeText(this, "caught", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "caught", Toast.LENGTH_SHORT).show();
         }
     }
 

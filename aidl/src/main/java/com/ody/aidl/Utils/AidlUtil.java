@@ -67,7 +67,7 @@ public class AidlUtil {
 
     public void printQr(String data, int modulesize, int errorlevel) {
         if (woyouService == null) {
-            Toast.makeText(context, "Service is null on: printQr", Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, "Service is null on: printQr", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -87,7 +87,7 @@ public class AidlUtil {
             //Toast.makeText(context, "Service is null on: printBitmap", Toast.LENGTH_LONG).show();
             //return;
             if (woyouService == null) {
-                Toast.makeText(context, "Service is null on: printBitmap", Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "Service is null on: printBitmap", Toast.LENGTH_LONG).show();
                 return;
             }
         }
@@ -124,15 +124,15 @@ public class AidlUtil {
     //custom method
     public void makeCut() {
         if (woyouService != null) {
-            Toast.makeText(context, "Make Cut", Toast.LENGTH_SHORT);
+            //Toast.makeText(context, "Make Cut", Toast.LENGTH_SHORT);
             try {
                 woyouService.lineWrap(3, null);
                 woyouService.cutPaper(null);
             } catch (RemoteException e) {
-                Toast.makeText(context, "RemoteException on: makeCut", Toast.LENGTH_SHORT);
+                //Toast.makeText(context, "RemoteException on: makeCut", Toast.LENGTH_SHORT);
             }
         } else {
-            Toast.makeText(context, "Service is null on: makeCut", Toast.LENGTH_SHORT);
+            //Toast.makeText(context, "Service is null on: makeCut", Toast.LENGTH_SHORT);
         }
     }
 

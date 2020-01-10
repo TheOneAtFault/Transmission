@@ -120,7 +120,7 @@ public class AIDLActivity extends AppCompatActivity {
                 log.setText(s);
             }
 
-            Toast.makeText(this, "caught", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "caught", Toast.LENGTH_SHORT).show();
         }
     }
 

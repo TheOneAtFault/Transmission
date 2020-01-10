@@ -22,6 +22,7 @@ public class QRGenerator {
         int qrCodeDimention = 300;
         Bitmap bitmap = null;
         try {
+            //size of screen: 128*40
             QRCodeEncoder qrCodeEncoder =
                     new QRCodeEncoder(data, null, Contents.Type.TEXT,
                             BarcodeFormat.QR_CODE.toString(), qrCodeDimention);
@@ -29,7 +30,7 @@ public class QRGenerator {
             bitmap = qrCodeEncoder.encodeAsBitmap();
 
             ByteArrayOutputStream OutputStreamAsByteArray = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, OutputStreamAsByteArray);
+            //bitmap.compress(Bitmap.CompressFormat.PNG, 100, OutputStreamAsByteArray);
             byte[] toByteArray = OutputStreamAsByteArray.toByteArray();
             //response = Response.getInstance().compose(true, null, Base64.encodeToString(toByteArray, Base64.DEFAULT));
         } catch (WriterException e) {
