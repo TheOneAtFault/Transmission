@@ -32,7 +32,7 @@ public class Image {
         return INSTANCE;
     }
 
-    public Response print(@Nullable String image, int inTargetDensity, int inDensity, boolean cut) {
+    public Response print(@Nullable String image, int inTargetDensity, int inDensity, boolean cut, int padding) {
         try {
             if (inTargetDensity != 0) {
                 IN_TARGET_DENSITY = inTargetDensity;
@@ -63,7 +63,11 @@ public class Image {
 
                 AidlUtil.getInstance().printBitmap(bitmap, myorientation);
                 if (cut) {
+                    AidlUtil.getInstance().padding(padding);
                     AidlUtil.getInstance().makeCut();
+                }
+                else{
+                    AidlUtil.getInstance().padding(padding);
                 }
                 //set response
                 response = Response.getInstance().compose(true, null, "success");
@@ -79,7 +83,7 @@ public class Image {
         return response;
     }
 
-    public Response print(@Nullable Bitmap image, int inTargetDensity, int inDensity, boolean cut) {
+    public Response print(@Nullable Bitmap image, int inTargetDensity, int inDensity, boolean cut, int padding) {
         try {
             if (inTargetDensity != 0) {
                 IN_TARGET_DENSITY = inTargetDensity;
@@ -97,11 +101,15 @@ public class Image {
 
                 AidlUtil.getInstance().printBitmap(image, myorientation);
                 if (cut) {
+                    AidlUtil.getInstance().padding(padding);
                     AidlUtil.getInstance().makeCut();
+                }
+                else{
+                    AidlUtil.getInstance().padding(padding);
                 }
                 //set response
                 response = Response.getInstance().compose(true, null, "success");
-            } else if (image == null) {
+            } else if (image == null) { //default set
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inTargetDensity = 160;
                 options.inDensity = 160;
@@ -109,7 +117,11 @@ public class Image {
 
                 AidlUtil.getInstance().printBitmap(bitmap, myorientation);
                 if (cut) {
+                    AidlUtil.getInstance().padding(padding);
                     AidlUtil.getInstance().makeCut();
+                }
+                else{
+                    AidlUtil.getInstance().padding(padding);
                 }
                 //set response
                 response = Response.getInstance().compose(true, null, "success");

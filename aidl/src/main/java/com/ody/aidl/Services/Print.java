@@ -12,27 +12,27 @@ import com.ody.aidl.Helpers.Response;
 public class Print {
     private static Response response;
 
-    public static Response qr(String data, boolean cut) {
+    public static Response qr(String data, boolean cut, int padding) {
         try {
-            response = QR.getInstance().print(data, null, null, cut);
+            response = QR.getInstance().print(data, null, null, cut, padding);
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in Print - QR");
         }
         return response;
     }
     //image as string
-    public static Response image(@Nullable String data, boolean cut) {
+    public static Response image(@Nullable String data, boolean cut, int padding) {
         try {
-            response = Image.getInstance().print(data, 0, 0, cut);
+            response = Image.getInstance().print(data, 0, 0, cut, padding);
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in Print - Image");
         }
         return response;
     }
     //image as bitmap
-    public static Response image(@Nullable Bitmap data, boolean cut) {
+    public static Response image(@Nullable Bitmap data, boolean cut, int padding) {
         try {
-            response = Image.getInstance().print(data, 0, 0, cut);
+            response = Image.getInstance().print(data, 0, 0, cut, padding);
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in Print - Image");
         }

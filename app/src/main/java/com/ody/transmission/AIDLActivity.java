@@ -74,7 +74,7 @@ public class AIDLActivity extends AppCompatActivity {
         qr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Response response = Print.qr("", true);
+                Response response = Print.qr("", true, 2);
                 TextView log = (TextView) findViewById(R.id.aidl_tv_log);
                 if (!response.isSuccess()) {
                     log.setText(response.getsErrorMessage());
@@ -101,26 +101,28 @@ public class AIDLActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GET_FROM_GALLERY) {
             //content URI
-            Uri selectedImage = data.getData();
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            ImageView ivThumbnailPhoto = findViewById(R.id.aidl_iv_image);
-            ivThumbnailPhoto.setImageBitmap(bitmap);
-            try {
-                Response response = Print.image(bitmap, true);
-            } catch (Exception e) {
-                TextView log = findViewById(R.id.tv_usb_log);
-                Writer writer = new StringWriter();
-                e.printStackTrace(new PrintWriter(writer));
-                String s = writer.toString();
-                log.setText(s);
-            }
+            if(data != null){
+                Uri selectedImage = data.getData();
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ImageView ivThumbnailPhoto = findViewById(R.id.aidl_iv_image);
+                ivThumbnailPhoto.setImageBitmap(bitmap);
+                try {
+                    Response response = Print.image(bitmap, true, 2);
+                } catch (Exception e) {
+                    TextView log = findViewById(R.id.tv_usb_log);
+                    Writer writer = new StringWriter();
+                    e.printStackTrace(new PrintWriter(writer));
+                    String s = writer.toString();
+                    log.setText(s);
+                }
 
-            //Toast.makeText(this, "caught", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "caught", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

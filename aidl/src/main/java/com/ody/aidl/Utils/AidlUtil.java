@@ -74,7 +74,7 @@ public class AidlUtil {
         try {
             woyouService.setAlignment(1, null);//alignment set to 1 = center
             woyouService.printQRCode(data, modulesize, errorlevel, null);
-            woyouService.lineWrap(3, null);
+            //woyouService.lineWrap(3, null);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -96,11 +96,11 @@ public class AidlUtil {
             if (orientation == 0) {
                 woyouService.printBitmap(bitmap, null);
                 //woyouService.printText("ImageTextHere\n", null);
-                woyouService.lineWrap(3, null);
+                //woyouService.lineWrap(3, null);
             } else {
                 woyouService.printBitmap(bitmap, null);
                 //woyouService.printText("\nImageTextHere orientation != 0\n", null);
-                woyouService.lineWrap(3, null);
+                //woyouService.lineWrap(3, null);
             }
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -126,7 +126,7 @@ public class AidlUtil {
         if (woyouService != null) {
             //Toast.makeText(context, "Make Cut", Toast.LENGTH_SHORT);
             try {
-                woyouService.lineWrap(3, null);
+                //woyouService.lineWrap(3, null);
                 woyouService.cutPaper(null);
             } catch (RemoteException e) {
                 //Toast.makeText(context, "RemoteException on: makeCut", Toast.LENGTH_SHORT);
@@ -134,6 +134,22 @@ public class AidlUtil {
         } else {
             //Toast.makeText(context, "Service is null on: makeCut", Toast.LENGTH_SHORT);
         }
+    }
+
+    public Response padding(int howMuch){
+        if (woyouService != null) {
+            try {
+                woyouService.lineWrap(howMuch, null);
+            }
+            catch (Exception e){
+                response = Response.getInstance().compose(false, e, "Exception on padding - Aidl");
+            }
+        }
+        else
+        {
+            response = Response.getInstance().compose(false, null, "Service is null on: padding - Aidl");
+        }
+        return response;
     }
 
     public Response lcdSingle(String lineOne) {

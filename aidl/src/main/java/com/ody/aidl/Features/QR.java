@@ -26,7 +26,7 @@ public class QR {
      * @param cut        = printer function to cut paper
      * @return response
      */
-    public Response print(String content, @Nullable Integer printSize, @Nullable Integer errorLevel, boolean cut) {
+    public Response print(String content, @Nullable Integer printSize, @Nullable Integer errorLevel, boolean cut, int padding) {
         if (printSize != null) {
             print_size = printSize;
         }
@@ -51,8 +51,13 @@ public class QR {
              **/
             AidlUtil.getInstance().printQr(content, print_size, error_level);
             if (cut) {
+                AidlUtil.getInstance().padding(padding);
                 AidlUtil.getInstance().makeCut();
             }
+            else{
+                AidlUtil.getInstance().padding(padding);
+            }
+
             response = Response.getInstance().compose(true, null, "success");
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception caught in QR Print");
