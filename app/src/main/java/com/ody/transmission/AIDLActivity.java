@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.ody.aidl.Helpers.Response;
 import com.ody.aidl.Services.Print;
+import com.ody.aidl.Utils.AidlUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,6 +32,8 @@ import java.io.Writer;
 public class AIDLActivity extends AppCompatActivity {
 
     private static final int GET_FROM_GALLERY = 1;
+    private boolean CUT_PAPER = false;
+    private int PADDING = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,7 @@ public class AIDLActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    Response response = Print.text("AIDL Text Print Test \n", true);
+                    Response response = Print.text("AIDL Text Print Test \n", CUT_PAPER, PADDING);
                     TextView log = (TextView) findViewById(R.id.aidl_tv_log);
                     if (!response.isSuccess()) {
                         log.setText(response.getsErrorMessage());
@@ -74,7 +78,7 @@ public class AIDLActivity extends AppCompatActivity {
         qr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Response response = Print.qr("", true, 2);
+                Response response = Print.qr("", CUT_PAPER, PADDING);
                 TextView log = (TextView) findViewById(R.id.aidl_tv_log);
                 if (!response.isSuccess()) {
                     log.setText(response.getsErrorMessage());
@@ -94,6 +98,23 @@ public class AIDLActivity extends AppCompatActivity {
 
             }
         });
+
+        final Switch cut = (Switch) findViewById(R.id.switch_Cut);
+        cut.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                CUT_PAPER = b;
+            }
+        });
+
+        Button cutManual = (Button) findViewById(R.id.btn_manualcut);
+        cutManual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Response response = Print.cut();
+            }
+        });
+
     }
 
     @Override
@@ -112,7 +133,7 @@ public class AIDLActivity extends AppCompatActivity {
                 ImageView ivThumbnailPhoto = findViewById(R.id.aidl_iv_image);
                 ivThumbnailPhoto.setImageBitmap(bitmap);
                 try {
-                    Response response = Print.image(bitmap, true, 2);
+                    Response response = Print.image(bitmap, CUT_PAPER, PADDING);
                 } catch (Exception e) {
                     TextView log = findViewById(R.id.tv_usb_log);
                     Writer writer = new StringWriter();

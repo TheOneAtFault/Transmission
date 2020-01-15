@@ -32,6 +32,10 @@ public class AidlUtil {
         return mAidlUtil;
     }
 
+    public static void dispose(){
+        mAidlUtil = null;
+    }
+
     public void connectPrinterService(Context context) {
         this.context = context.getApplicationContext();
         Intent intent = new Intent();
@@ -65,84 +69,78 @@ public class AidlUtil {
         }
     };
 
-    public void printQr(String data, int modulesize, int errorlevel) {
-        if (woyouService == null) {
-            //Toast.makeText(context, "Service is null on: printQr", Toast.LENGTH_LONG).show();
-            return;
+    public Response printQr(String data, int modulesize, int errorlevel) {
+        if (woyouService != null) {
+            try {
+                woyouService.setAlignment(1, null);//alignment set to 1 = center
+                woyouService.printQRCode(data, modulesize, errorlevel, null);
+                response = Response.getInstance().compose(true, null, "Success on: printQr - Aidl");
+            } catch (RemoteException e) {
+                response = Response.getInstance().compose(false, e, "Exception on: printQr - Aidl");
+            }
         }
-
-        try {
-            woyouService.setAlignment(1, null);//alignment set to 1 = center
-            woyouService.printQRCode(data, modulesize, errorlevel, null);
-            //woyouService.lineWrap(3, null);
-        } catch (RemoteException e) {
-            e.printStackTrace();
+        else{
+            response = Response.getInstance().compose(false, null, "Service is null on: printQr - Aidl");
         }
+        return response;
     }
 
-    public void printBitmap(Bitmap bitmap, int orientation) {
-        if (woyouService == null) {
-            //re-establish
-            //connectPrinterService(AIDLProvider.getCurContext());
-            //Toast.makeText(context, "Service is null on: printBitmap", Toast.LENGTH_LONG).show();
-            //return;
-            if (woyouService == null) {
-                //Toast.makeText(context, "Service is null on: printBitmap", Toast.LENGTH_LONG).show();
-                return;
+    public Response printBitmap(Bitmap bitmap, int orientation) {
+        if (woyouService != null) {
+            try {
+                if (orientation == 0) {
+                    woyouService.printBitmap(bitmap, null);
+                } else {
+                    woyouService.printBitmap(bitmap, null);
+                }
+                response = Response.getInstance().compose(true, null, "Success on: printBitmap - Aidl");
+            } catch (RemoteException e) {
+                response = Response.getInstance().compose(false, e, "Exception on: printBitmap - Aidl");
             }
         }
-
-        try {
-            if (orientation == 0) {
-                woyouService.printBitmap(bitmap, null);
-                //woyouService.printText("ImageTextHere\n", null);
-                //woyouService.lineWrap(3, null);
-            } else {
-                woyouService.printBitmap(bitmap, null);
-                //woyouService.printText("\nImageTextHere orientation != 0\n", null);
-                //woyouService.lineWrap(3, null);
-            }
-        } catch (RemoteException e) {
-            e.printStackTrace();
+        else{
+            response = Response.getInstance().compose(false, null, "Service is null on: printBitmap - Aidl");
         }
+        return response;
     }
 
     public Response sendRawData(byte[] data) {
         if (woyouService != null) {
             try {
                 woyouService.sendRAWData(data, null);
-                response = Response.getInstance().compose(true, null, "Success");
+                response = Response.getInstance().compose(true, null, "Success on: sendRawData - Aidl");
             } catch (RemoteException e) {
-                response = Response.getInstance().compose(false, e, "Exception in sendRawData - Aidl");
+                response = Response.getInstance().compose(false, e, "Exception on sendRawData - Aidl");
             }
         } else {
-            response = Response.getInstance().compose(false, null, "Service is null on: lcdSingle - Aidl");
+            response = Response.getInstance().compose(false, null, "Service is null on: sendRawData - Aidl");
         }
         return response;
     }
 
     //custom method
-    public void makeCut() {
+    public Response makeCut() {
         if (woyouService != null) {
-            //Toast.makeText(context, "Make Cut", Toast.LENGTH_SHORT);
             try {
-                //woyouService.lineWrap(3, null);
                 woyouService.cutPaper(null);
+                response = Response.getInstance().compose(true, null, "Success on: makeCut - Aidl");
             } catch (RemoteException e) {
-                //Toast.makeText(context, "RemoteException on: makeCut", Toast.LENGTH_SHORT);
+                response = Response.getInstance().compose(false, e, "Exception on: makeCut - Aidl");
             }
         } else {
-            //Toast.makeText(context, "Service is null on: makeCut", Toast.LENGTH_SHORT);
+            response = Response.getInstance().compose(false, null, "Exception on: makeCut - Aidl");
         }
+        return response;
     }
 
     public Response padding(int howMuch){
         if (woyouService != null) {
             try {
                 woyouService.lineWrap(howMuch, null);
+                response = Response.getInstance().compose(true, null, "Success on: padding - Aidl");
             }
             catch (Exception e){
-                response = Response.getInstance().compose(false, e, "Exception on padding - Aidl");
+                response = Response.getInstance().compose(false, e, "Exception on: padding - Aidl");
             }
         }
         else
@@ -157,9 +155,9 @@ public class AidlUtil {
             try {
                 woyouService.sendLCDCommand(4); // clear screen
                 woyouService.sendLCDString(lineOne, null);
-                response = Response.getInstance().compose(true, null, "Success");
+                response = Response.getInstance().compose(true, null, "Success on: lcdSingle - Aidl");
             } catch (Exception e) {
-                response = Response.getInstance().compose(false, e, "Exception in lcdSingle - Aidl");
+                response = Response.getInstance().compose(false, e, "Exception on: lcdSingle - Aidl");
             }
         } else {
             response = Response.getInstance().compose(false, null, "Service is null on: lcdSingle - Aidl");
@@ -172,9 +170,9 @@ public class AidlUtil {
             try {
                 woyouService.sendLCDCommand(4); //clear screen
                 woyouService.sendLCDDoubleString(lineOne, lineTwo, null);
-                response = Response.getInstance().compose(true, null, "Success");
+                response = Response.getInstance().compose(true, null, "Success on: lcdDouble - Aidl");
             } catch (Exception e) {
-                response = Response.getInstance().compose(false, e, "Service is null on: lcdDouble - Aidl");
+                response = Response.getInstance().compose(false, e, "Exception on: lcdDouble - Aidl");
             }
         } else {
             response = Response.getInstance().compose(false, null, "Service is null on: lcdDouble - Aidl");
@@ -187,7 +185,7 @@ public class AidlUtil {
             try {
                 woyouService.sendLCDCommand(4);
                 woyouService.sendLCDBitmap(bitmap, null);
-                response = Response.getInstance().compose(true, null, "Success");
+                response = Response.getInstance().compose(true, null, "Success on: lcdBitmap - Aidl");
             } catch (Exception e) {
                 response = Response.getInstance().compose(false, e, "Exception on: lcdBitmap - Aidl");
             }
@@ -201,9 +199,9 @@ public class AidlUtil {
         if (woyouService != null) {
             try {
                 woyouService.sendLCDCommand(2);
-                response = Response.getInstance().compose(true, null, "Success");
+                response = Response.getInstance().compose(true, null, "Success on lcdWake - Aidl");
             } catch (Exception e) {
-                response = Response.getInstance().compose(false, e, "Exception in lcdWake - Aidl");
+                response = Response.getInstance().compose(false, e, "Exception on lcdWake - Aidl");
             }
         } else {
             response = Response.getInstance().compose(false, null, "Service is null on: lcdWake - Aidl");
@@ -215,7 +213,7 @@ public class AidlUtil {
         if (woyouService != null) {
             try {
                 woyouService.sendLCDCommand(3);
-                response = Response.getInstance().compose(true, null, "Success");
+                response = Response.getInstance().compose(true, null, "Success on: lcdSleep - Aidl");
             } catch (Exception e) {
                 response = Response.getInstance().compose(false, e, "Exception on: lcdSleep - Aidl");
             }

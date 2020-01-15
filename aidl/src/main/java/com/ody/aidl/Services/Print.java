@@ -39,9 +39,18 @@ public class Print {
         return response;
     }
 
-    public static Response text(String content, boolean cut) {
+    public static Response text(String content, boolean cut, int padding) {
         try {
-            response = Text.getInstance().plain(content, cut);
+            response = Text.getInstance().plain(content, cut, padding);
+        } catch (Exception e) {
+            response = Response.getInstance().compose(false, e, "Exception in Print - Text");
+        }
+        return response;
+    }
+
+    public static Response cut() {
+        try {
+            response = Text.getInstance().cutter();
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in Print - Text");
         }
