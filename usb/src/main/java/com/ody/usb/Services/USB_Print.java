@@ -20,8 +20,7 @@ public class USB_Print {
      * @return USB_Response Instance
      */
     public static USB_Response textPlain(Context context, int vendorId, String data) {
-        USB_Response USBResponse = Text.getInstance().plain(context, vendorId, data);
-        return USBResponse;
+        return Text.getInstance().plain(context, vendorId, data);
     }
 
     /**
@@ -33,12 +32,10 @@ public class USB_Print {
      * @return
      */
     public static USB_Response image(Context context, int vendorId, @Nullable Bitmap image) {
-        USB_Response USBResponse = Image.getInstance().plainImage(context, vendorId, image);
-        return USBResponse;
+        return Image.getInstance().plainImage(context, vendorId, image);
     }
 
     public static USB_Response qr(Context context, int vendorId, String content){
-        USB_Response aa = QR.getInstance().plain(context, vendorId, content);
-        return aa;
+        return QR.getInstance().plain(context, vendorId, content);
     }
 }

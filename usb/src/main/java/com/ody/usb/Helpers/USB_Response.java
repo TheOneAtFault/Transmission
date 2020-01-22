@@ -6,12 +6,11 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
-//todo: explain class
 public class USB_Response {
     private boolean bSuccess;
     private String sErrorMessage;
     private String sCustomMessage;
-    private static USB_Response mUSBResponse = new USB_Response();
+    private static USB_Response mUSBResponse;
 
     private USB_Response(){
     }
@@ -41,7 +40,6 @@ public class USB_Response {
     }
 
     public USB_Response compose(boolean status, @Nullable Exception exception, @Nullable String message){
-       // USB_Response response = new USB_Response();
         if (exception != null) {
             Writer writer = new StringWriter();
             exception.printStackTrace(new PrintWriter(writer));
@@ -64,6 +62,6 @@ public class USB_Response {
     }
 
     public static USB_Response getInstance(){
-        return mUSBResponse;
+        return mUSBResponse = new USB_Response();
     }
 }

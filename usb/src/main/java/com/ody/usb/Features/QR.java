@@ -7,20 +7,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
-import android.util.Base64;
-
-import androidx.annotation.Nullable;
 
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
 import com.ody.usb.Classes.QR.Contents;
 import com.ody.usb.Classes.QR.QRCodeEncoder;
 import com.ody.usb.Classes.Shared.ESCPOSPrinter;
 import com.ody.usb.Classes.Shared.USBPort;
 import com.ody.usb.Classes.Shared.USBPortConnection;
-import com.ody.usb.Helpers.USB_QRGenerator;
 import com.ody.usb.Helpers.USB_Response;
-import com.ody.usb.Services.USB_Print;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;

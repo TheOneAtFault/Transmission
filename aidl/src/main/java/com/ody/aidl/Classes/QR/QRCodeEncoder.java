@@ -9,7 +9,6 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.ody.aidl.Classes.QR.Contents;
 
 import java.util.Collection;
 import java.util.EnumMap;
