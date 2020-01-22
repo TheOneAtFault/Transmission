@@ -5,25 +5,25 @@ import com.ody.serial.Features.Ports;
 import com.ody.serial.Helpers.Response;
 
 public class Communication {
-    private static String response;
+    private static String responseAsString;
 
     //send
     public static String request(String serialPort, int baudRate, boolean closeSerialPort) {
         try {
-            response = Data.getInstance().request(serialPort, baudRate, closeSerialPort);
+            responseAsString = Data.getInstance().request(serialPort, baudRate, closeSerialPort);
         } catch (Exception e) {
-            response = Response.getInstance().compose(false, e,
-                    "Exception in SendAndRecieve - returnData.").getsErrorMessage();
+            responseAsString = Response.getInstance().compose(false, e,
+                    "Exception in Send And Recieve (request) - returnData.").getsErrorMessage();
         }
-        return response;
+        return responseAsString;
     }
 
     public static String requestPorts() {
         try {
-            response = Ports.getInstance().get();
+            responseAsString = Ports.getInstance().get();
         } catch (Exception e) {
-            response = Response.getInstance().compose(false, e, "Exception in Communication.requestPorts().").getsErrorMessage();
+            responseAsString = Response.getInstance().compose(false, e, "Exception in Communication.requestPorts().").getsErrorMessage();
         }
-        return response;
+        return responseAsString;
     }
 }

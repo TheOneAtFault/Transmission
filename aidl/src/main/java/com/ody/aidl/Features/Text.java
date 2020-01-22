@@ -14,7 +14,7 @@ public class Text {
 
     public Response plain(String content, boolean cut, int padding) {
         try {
-            if (content.equals("")) {
+            if (!content.equals("")) {
                 byte[] btContent = content.getBytes();
                 response = AidlUtil.getInstance().sendRawData(btContent);
                 if (response.isSuccess() && cut) {

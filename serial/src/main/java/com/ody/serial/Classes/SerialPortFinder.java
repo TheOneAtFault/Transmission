@@ -45,8 +45,7 @@ public class SerialPortFinder {
 
     private Vector<Driver> mDrivers = null;
 
-    Vector<Driver> getDrivers()
-            throws IOException {
+    Vector<Driver> getDrivers() throws IOException {
         if (this.mDrivers == null) {
             this.mDrivers = new Vector();
             LineNumberReader r = new LineNumberReader(new FileReader("/proc/tty/drivers"));
@@ -65,39 +64,43 @@ public class SerialPortFinder {
     }
 
     public String[] getAllDevices() {
-        Vector<String> devices = new Vector();
+        Vector<String> devices = new Vector<String>();
+        // Parse each driver
+        Iterator<Driver> itdriv;
         try {
-            Iterator<Driver> itdriv = getDrivers().iterator();
-            Iterator<File> itdev;
-            for (; itdriv.hasNext(); itdev.hasNext()) {
-                Driver driver = (Driver) itdriv.next();
-                itdev = driver.getDevices().iterator();
-                //continue;
-                String device = ((File) itdev.next()).getName();
-                String value = String.format("%s (%s)", new Object[]{device, driver.getName()});
-                devices.add(value);
+            itdriv = getDrivers().iterator();
+            while (itdriv.hasNext()) {
+                Driver driver = itdriv.next();
+                Iterator<File> itdev = driver.getDevices().iterator();
+                while (itdev.hasNext()) {
+                    String device = itdev.next().getName();
+                    String value = String.format("%s (%s)", device, driver.getName());
+                    devices.add(value);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return (String[]) devices.toArray(new String[devices.size()]);
+        return devices.toArray(new String[devices.size()]);
     }
 
     public String[] getAllDevicesPath() {
         Vector<String> devices = new Vector();
+        // Parse each driver
+        Iterator<Driver> itdriv;
         try {
-            Iterator<Driver> itdriv = getDrivers().iterator();
-            Iterator<File> itdev;
-            for (; itdriv.hasNext(); itdev.hasNext()) {
-                Driver driver = (Driver) itdriv.next();
-                itdev = driver.getDevices().iterator();
-                //continue;
-                String device = ((File) itdev.next()).getAbsolutePath();
-                devices.add(device);
+            itdriv = getDrivers().iterator();
+            while (itdriv.hasNext()) {
+                Driver driver = itdriv.next();
+                Iterator<File> itdev = driver.getDevices().iterator();
+                while (itdev.hasNext()) {
+                    String device = itdev.next().getAbsolutePath();
+                    devices.add(device);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return (String[]) devices.toArray(new String[devices.size()]);
+        return devices.toArray(new String[devices.size()]);
     }
 }

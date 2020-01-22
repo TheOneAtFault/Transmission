@@ -18,7 +18,7 @@ public class QRGenerator {
         return mQRenerator = new QRGenerator();
     }
 
-    public Bitmap run(String data) {
+    public static Bitmap run(String data) {
         int qrCodeDimention = 300;
         Bitmap bitmap = null;
         try {

@@ -5,12 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
-import android.widget.Toast;
 
 import com.ody.usb.Classes.Shared.ESCPOSPrinter;
 import com.ody.usb.Classes.Shared.USBPort;
 import com.ody.usb.Classes.Shared.USBPortConnection;
-import com.ody.usb.Helpers.Response;
+import com.ody.usb.Helpers.USB_Response;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,15 +36,15 @@ public class Text {
 
 
     /**
-     * Print text with the usb module
+     * USB_Print text with the usb module
      * @param context
      * @param vendorId
      * @param content
      * @return response object
      */
-    public Response plain(Context context, int vendorId, String content){
+    public USB_Response plain(Context context, int vendorId, String content){
         //set variables
-        Response response = Response.getInstance();
+        USB_Response USBResponse = USB_Response.getInstance();
         boolean bHasPermission = false;
 
         //set the application context passed from the call
@@ -79,7 +78,7 @@ public class Text {
                         bHasPermission = false;
                         mUsbManager.requestPermission(mDevice, mPermissionIntent);
                         bHasPermission = true;
-                        response = Response.getInstance().compose(false,null,
+                        USBResponse = USB_Response.getInstance().compose(false,null,
                                 "Device Permission requested.");
                     }
 
@@ -90,15 +89,15 @@ public class Text {
                         posPrinter.printNormal(content);
 
                         portConnection.close();
-                        response = Response.getInstance().compose(true,null,"Success");
+                        USBResponse = USB_Response.getInstance().compose(true,null,"Success");
                     }
                 }
                 catch(Exception e) {
-                    response = Response.getInstance().compose(true,e,
+                    USBResponse = USB_Response.getInstance().compose(true,e,
                             "Exception caught in Text.plain().");
                 }
             }
         }
-        return response;
+        return USBResponse;
     }
 }

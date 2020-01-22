@@ -7,13 +7,13 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 //todo: explain class
-public class Response {
+public class USB_Response {
     private boolean bSuccess;
     private String sErrorMessage;
     private String sCustomMessage;
-    private static Response mResponse = new Response();
+    private static USB_Response mUSBResponse = new USB_Response();
 
-    private Response(){
+    private USB_Response(){
     }
 
     public boolean isSuccess() {
@@ -40,31 +40,30 @@ public class Response {
         sCustomMessage = message;
     }
 
-    public Response compose(boolean status, @Nullable Exception exception,@Nullable String message){
-       // Response response = new Response();
-
+    public USB_Response compose(boolean status, @Nullable Exception exception, @Nullable String message){
+       // USB_Response response = new USB_Response();
         if (exception != null) {
             Writer writer = new StringWriter();
             exception.printStackTrace(new PrintWriter(writer));
             String exceptionMessage = writer.toString();
-            mResponse.setsErrorMessage(exceptionMessage);
+            mUSBResponse.setsErrorMessage(exceptionMessage);
         } else {
-            mResponse.setsErrorMessage("NaN");
+            mUSBResponse.setsErrorMessage("NaN");
         }
 
         if(message != null){
-            mResponse.setsCustomMessage(message);
+            mUSBResponse.setsCustomMessage(message);
         }
         else{
-            mResponse.setsCustomMessage("");
+            mUSBResponse.setsCustomMessage("");
         }
 
-        mResponse.setSuccess(status);
+        mUSBResponse.setSuccess(status);
 
-        return mResponse;
+        return mUSBResponse;
     }
 
-    public static Response getInstance(){
-        return mResponse;
+    public static USB_Response getInstance(){
+        return mUSBResponse;
     }
 }

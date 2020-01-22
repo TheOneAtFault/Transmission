@@ -9,25 +9,22 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ody.usb.Helpers.Response;
-import com.ody.usb.Services.Devices;
-import com.ody.usb.Services.Print;
+import com.ody.usb.Helpers.USB_Response;
+import com.ody.usb.Services.USB_Devices;
+import com.ody.usb.Services.USB_Print;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.List;
 
 public class USBActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -35,6 +32,8 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
     private String selectedImage = "";
     private ArrayList<String> list = new ArrayList<>();
     private int vendorId = 0;
+    private ImageView someview;
+    private USB_Response response;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +50,10 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
             list.add(String.valueOf(vendors[i]));
         }
 
+        //String result = String.join(",","ww","ww");
+
+        someview = findViewById(R.id.imageView);
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -58,6 +61,13 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
         Button textPrint = findViewById(R.id.usb_btn_printText);
         Button textImage = findViewById(R.id.usb_btn_printImage);
         Button devices = findViewById(R.id.btn_usb_showDevices);
+        Button qr = findViewById(R.id.btn_usb_qr);
+        qr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                printQR();
+            }
+        });
         textPrint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,16 +86,37 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
                 getDevices();
             }
         });
+
+    }
+
+    private void printQR() {
+        response = USB_Print.qr(
+                this,
+                vendorId,
+                "Testing usb QR print"
+        );
+
+        TextView textView = findViewById(R.id.tv_usb_log);
+        textView.setText("Error Message:" + response.getsErrorMessage() +
+                "\n" +
+                "Output Message: " + response.getsCustomMessage());
     }
 
     //print Text
     public void printText() {
-        Response response = Print.textPlain(this, vendorId, "Test usb text printing in module.\n");
+        response = USB_Print.textPlain(
+                this,
+                vendorId,
+                "Testing usb text print"
+        );
+
         TextView textView = findViewById(R.id.tv_usb_log);
-        textView.setText(response.getsErrorMessage() + "\n" + response.getsCustomMessage());
+        textView.setText("Error Message:" + response.getsErrorMessage() +
+                "\n" +
+                "Output Message: " + response.getsCustomMessage());
     }
 
-    //Print Image
+    //USB_Print Image
     public void printImage() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/");
@@ -97,9 +128,9 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
         startActivityForResult(Intent.createChooser(intent, "Select Image"), GET_FROM_GALLERY);
     }
 
-    //Show Devices
+    //Show USB_Devices
     public int[] getDevices() {
-        return Devices.getAll(this);
+        return USB_Devices.getAll(this);
     }
 
     @Override
@@ -117,7 +148,7 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
             ImageView ivThumbnailPhoto = findViewById(R.id.imageView);
             ivThumbnailPhoto.setImageBitmap(bitmap);
             try {
-                Response response = Print.image(this, vendorId, bitmap);
+                response = USB_Print.image(this, vendorId, bitmap);
             } catch (Exception e) {
                 TextView log = findViewById(R.id.tv_usb_log);
                 Writer writer = new StringWriter();
@@ -125,9 +156,6 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
                 String s = writer.toString();
                 log.setText(s);
             }
-
-
-            //Toast.makeText(this, "caught", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -136,7 +164,7 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
         String text = adapterView.getSelectedItem().toString();
         vendorId = Integer.parseInt(text);
         TextView info = (TextView) findViewById(R.id.tv_usb_log);
-        info.setText(vendorId+"");
+        info.setText(vendorId + "");
     }
 
     @Override

@@ -6,8 +6,9 @@ public class Ports {
     private static Ports mPorts;
 
     public static Ports getInstance(){
-        return mPorts;
-    } 
+        return mPorts = new Ports();
+    }
+
     public String get(){
         SerialPortFinder mSerialPortFinder;
         mSerialPortFinder = new SerialPortFinder();

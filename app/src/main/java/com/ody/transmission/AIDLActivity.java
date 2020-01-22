@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.ody.aidl.Helpers.Response;
 import com.ody.aidl.Services.Print;
+import com.ody.aidl.StartUp;
 import com.ody.aidl.Utils.AidlUtil;
 
 import java.io.IOException;
@@ -33,24 +35,27 @@ public class AIDLActivity extends AppCompatActivity {
 
     private static final int GET_FROM_GALLERY = 1;
     private boolean CUT_PAPER = false;
-    private int PADDING = 2;
+    private int PADDING = 1;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aidl);
-
+        context = getApplicationContext();
         Button text = (Button) findViewById(R.id.aidl_btn_printText);
         Button image = (Button) findViewById(R.id.aidl_btn_printImage);
         Button qr = (Button) findViewById(R.id.aidl_btn_generateQR);
         Button polling = (Button) findViewById(R.id.aidl_btn_pollingDisplay);
         Button kickdrawer = (Button) findViewById(R.id.aidl_btn_drawerKick);
 
+        StartUp.ignition(context);
+
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    Response response = Print.text("AIDL Text Print Test \n", CUT_PAPER, PADDING);
+                    Response response = Print.text("AIDL Text USB_Print Test \n", CUT_PAPER, PADDING);
                     TextView log = (TextView) findViewById(R.id.aidl_tv_log);
                     if (!response.isSuccess()) {
                         log.setText(response.getsErrorMessage());

@@ -11,7 +11,6 @@ import com.ody.aidl.R;
 import com.ody.aidl.AIDLProvider;
 import com.ody.aidl.Utils.AidlUtil;
 
-
 public class Image {
     //options
     private static int IN_TARGET_DENSITY = 160;
@@ -53,7 +52,7 @@ public class Image {
                 options.inDensity = 160;
                 Bitmap bitmap = BitmapFactory.decodeFile(image);
 
-                AidlUtil.getInstance().printBitmap(bitmap, myorientation);
+                response = AidlUtil.getInstance().printBitmap(bitmap, myorientation);
                 if (response.isSuccess() && cut) {
                     AidlUtil.getInstance().padding(padding);
                     AidlUtil.getInstance().makeCut();

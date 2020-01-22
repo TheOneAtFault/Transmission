@@ -10,7 +10,7 @@ import com.ody.aidl.Utils.AidlUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class BaseApp extends Application {
+public class StartUp extends Application {
     //private final Context applicationContext = getApplicationContext();
 //    private final AtomicBoolean deleted = new AtomicBoolean();
 //    private final String name = "";
@@ -45,5 +45,9 @@ public class BaseApp extends Application {
         super.onCreate();
         isAidl = true;
         AidlUtil.getInstance().connectPrinterService(this);
+    }
+
+    public static void ignition(Context context){
+        AidlUtil.getInstance().connectPrinterService(context);
     }
 }
