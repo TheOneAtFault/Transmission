@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.ody.usb.Helpers.USB_Response;
+import com.ody.usb.Services.USB_Cutter;
 import com.ody.usb.Services.USB_Devices;
 import com.ody.usb.Services.USB_Print;
 
@@ -62,10 +63,17 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
         Button textImage = findViewById(R.id.usb_btn_printImage);
         Button devices = findViewById(R.id.btn_usb_showDevices);
         Button qr = findViewById(R.id.btn_usb_qr);
+        Button fullCut = findViewById(R.id.btn_usb_fullcut);
         qr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 printQR();
+            }
+        });
+        fullCut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fullCut();
             }
         });
         textPrint.setOnClickListener(new View.OnClickListener() {
@@ -89,11 +97,17 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
 
     }
 
+    public void fullCut(){
+        USB_Cutter.cut(
+                this,
+                vendorId);
+    }
+
     private void printQR() {
         response = USB_Print.qr(
                 this,
                 vendorId,
-                "Testing usb QR print"
+                "123"
         );
 
         TextView textView = findViewById(R.id.tv_usb_log);
@@ -107,7 +121,7 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
         response = USB_Print.textPlain(
                 this,
                 vendorId,
-                "Testing usb text print"
+                "This is some text to figure out the printing \n"
         );
 
         TextView textView = findViewById(R.id.tv_usb_log);

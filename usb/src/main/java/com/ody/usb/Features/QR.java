@@ -40,6 +40,9 @@ public class QR {
     public void connectService(Context context) {
         mContext = context;
     }
+    public void disconnectService() {
+        mContext = null;
+    }
 
     public USB_Response plain(Context context, int vendorId, String data) {
         try {
@@ -113,6 +116,9 @@ public class QR {
                     false,
                     e, "Exception in usb QR.plain"
             );
+        }
+        finally {
+            disconnectService();
         }
         return response;
     }

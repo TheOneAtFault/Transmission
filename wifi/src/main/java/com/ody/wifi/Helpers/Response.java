@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-
 //todo: explain class
 public class Response {
     private boolean bSuccess;

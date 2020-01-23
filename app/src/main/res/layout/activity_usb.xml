@@ -107,7 +107,7 @@
         android:layout_marginTop="16dp"
         android:text="Polling Display"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usb_btn_drawer" />
+        app:layout_constraintTop_toBottomOf="@+id/usb_btn_printText" />
 
     <Button
         android:id="@+id/usb_btn_printImage"
@@ -149,5 +149,16 @@
         app:layout_constraintEnd_toStartOf="@+id/usb_btn_printImage"
         app:layout_constraintStart_toEndOf="@+id/usb_btn_printText"
         app:layout_constraintTop_toBottomOf="@+id/spnr_usb_devices" />
+
+    <Button
+        android:id="@+id/btn_usb_fullcut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Full Cut"
+        app:layout_constraintStart_toEndOf="@+id/usb_btn_pollingDisplay"
+        app:layout_constraintTop_toBottomOf="@+id/usb_btn_printText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

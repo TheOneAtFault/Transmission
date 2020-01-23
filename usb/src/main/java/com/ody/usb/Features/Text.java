@@ -34,6 +34,9 @@ public class Text {
         mContext = context;
     }
 
+    public void disconnectService(){
+        mContext = null;
+    }
 
     /**
      * USB_Print text with the usb module
@@ -98,6 +101,8 @@ public class Text {
                 }
             }
         }
+
+        disconnectService();
         return USBResponse;
     }
 }

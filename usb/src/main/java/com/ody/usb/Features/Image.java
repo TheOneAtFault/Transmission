@@ -39,10 +39,12 @@ public class Image {
     public void connectService(Context context) {
         mContext = context;
     }
+    private void disconnectService() {
+        mContext = null;
+    }
 
     public USB_Response plainImage(Context context, int vendorId, @Nullable Bitmap image) {
         //set the application context passed from the call
-
         connectService(context);
 
         //register the required permission

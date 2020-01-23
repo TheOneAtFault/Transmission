@@ -40,6 +40,11 @@ public class ESCPOS {
         return EPCommand((byte)27, 'a', n);
     }
 
+    public byte[] ESC_cut()
+    {
+        return EPCommand((byte)29, 'V', 65 , 3);
+    }
+
     public byte[] ESC_M(int n)
     {
         return EPCommand((byte)27, 'M', n);

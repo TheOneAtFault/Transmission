@@ -61,11 +61,17 @@ public class ESCPOSPrinter {
         {
             MobileImageConverter mConverter = new MobileImageConverter();
             byte[] bimg = mConverter.convertBitImage(img, imageLoader.getThresHoldValue());
+
             this.requestQueue.addRequest(this.escpos.ESC_a(alignment));
 
             this.requestQueue.addRequest(this.escpos.GS_v(size, mConverter.getxL(), mConverter.getxH(), mConverter.getyL(), mConverter.getyH(), bimg));
+            this.requestQueue.addRequest(this.escpos.ESC_a(0));
             return 0;
         }
         return -1;
+    }
+
+    public void cutPaper(){
+        this.requestQueue.addRequest(this.escpos.ESC_cut());
     }
 }

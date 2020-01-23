@@ -28,14 +28,18 @@ public class USB_Print {
      *
      * @param context   = external application context(You know the story!)
      * @param vendorId  = printing device id
-     * @param image = image file path
+     * @param data = image file path
      * @return
      */
-    public static USB_Response image(Context context, int vendorId, @Nullable Bitmap image) {
-        return Image.getInstance().plainImage(context, vendorId, image);
+    public static USB_Response image(Context context, int vendorId, @Nullable Bitmap data) {
+        return Image.getInstance().plainImage(context, vendorId, data);
     }
 
-    public static USB_Response qr(Context context, int vendorId, String content){
-        return QR.getInstance().plain(context, vendorId, content);
+    public static USB_Response image(Context context, int vendorId, String data) {
+        return Image.getInstance().plainImage(context, vendorId, data);
+    }
+
+    public static USB_Response qr(Context context, int vendorId, String data){
+        return QR.getInstance().plain(context, vendorId, data);
     }
 }
