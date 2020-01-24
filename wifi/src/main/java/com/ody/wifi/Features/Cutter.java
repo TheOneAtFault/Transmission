@@ -8,23 +8,23 @@ import com.ody.wifi.Classes.WiFiPort;
 import com.ody.wifi.Helpers.Wifi_Response;
 
 import java.io.IOException;
-//todo: get done
-public class Text {
-    private static Text mText = new Text();
+
+public class Cutter {
+    private static Cutter mCutter;
     private Wifi_Response response;
 
-    public static Text getInstance() {
-        return mText = new Text();
+    public static Cutter getInstance() {
+        return mCutter = new Cutter();
     }
 
-    public Wifi_Response plain(Context context, String ip, String data, boolean cut) {
+    public Wifi_Response cut(Context context, String address) {
         Thread hThread;
-        ESCPOSPrinter posPrinter = new ESCPOSPrinter();
+        ESCPOSPrinter escposPrinter = new ESCPOSPrinter();
         WiFiPort wifiPort = WiFiPort.getInstance();
         Boolean connected = false;
 
         try {
-            wifiPort.connect(ip);
+            wifiPort.connect(address);
             connected = true;
 
             if (connected) {
@@ -32,18 +32,13 @@ public class Text {
                 hThread.start();
 
                 try {
-                    posPrinter.printNormal(data);
-
-                    if(cut){
-                        posPrinter.cutPaper();
-                    }
-
+                    escposPrinter.cutPaper();
                     response = Wifi_Response.getInstance().compose(
                             true,
                             null,
                             "Success"
                     );
-                } catch (IOException e) {
+                } catch (Exception e) {
                     response = Wifi_Response.getInstance().compose(
                             false,
                             e,

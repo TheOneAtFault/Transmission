@@ -3,6 +3,8 @@ package com.ody.wifi.Classes;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import androidx.annotation.Nullable;
+
 import java.io.IOException;
 
 public class AndroidImageLoader implements ImageLoaderIF {
@@ -88,6 +90,15 @@ public class AndroidImageLoader implements ImageLoaderIF {
         Bitmap image = getImage(filepath);
         if (image != null) {
             array = getByteArray(image);
+        }
+        return array;
+    }
+
+    public int[][] imageLoad(@Nullable Bitmap bitmapImage)
+            throws IOException {
+        int[][] array = null;
+        if (bitmapImage != null) {
+            array = getByteArray(bitmapImage);
         }
         return array;
     }

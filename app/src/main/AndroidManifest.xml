@@ -3,7 +3,7 @@
     package="com.ody.transmission">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
 
         android:allowBackup="true"
@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".AIDLPollingActivity"></activity>
-        <activity android:name=".WifiActivity" />
+        <activity android:name=".WifiActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".SerialActivity" />
         <activity android:name=".USBActivity" />
         <activity

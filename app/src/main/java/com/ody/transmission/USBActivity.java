@@ -150,7 +150,7 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GET_FROM_GALLERY) {
+        if (requestCode == GET_FROM_GALLERY && resultCode == RESULT_OK) {
             //content URI
             Uri selectedImage = data.getData();
             Bitmap bitmap = null;

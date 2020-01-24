@@ -421,4 +421,8 @@ public class ESCPOS {
         result[3] = ((byte)m);
         return result;
     }
+
+    public byte[] ESC_cut() {
+        return EPCommand((byte)29, 'V', 65 , 3);
+    }
 }

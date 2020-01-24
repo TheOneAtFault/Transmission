@@ -1,23 +1,27 @@
 package com.ody.wifi.Features;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import com.ody.wifi.Classes.ESCPOSPrinter;
 import com.ody.wifi.Classes.LKPrint;
 import com.ody.wifi.Classes.RequestHandler;
 import com.ody.wifi.Classes.WiFiPort;
-import com.ody.wifi.Helpers.Response;
+import com.ody.wifi.Helpers.Wifi_Response;
 
 import java.io.IOException;
 
 public class Image {
 
     private static Image mImage;
-    private Response response;
+    private Wifi_Response response;
 
     public static Image getInstance() {
-        return mImage;
+        return mImage = new Image();
     }
 
-    public Response print(String IP, String Path, int nTimeOut) {
+    public Wifi_Response print(Context context, String IP, String data, boolean cut) {
 
         Thread hThread;
         ESCPOSPrinter posPrinter;
@@ -30,18 +34,25 @@ public class Image {
 
         //connect to wifi port
         try {
-
             wifiPort.connect(IP);
             connected = true;
+        } catch (Exception e) {
+            response = Wifi_Response.getInstance().compose(
+                    false,
+                    e,
+                    "IOException on connecting to wifi print."
+            );
+        }
 
-            if (connected) {
+        try {
+            if(connected) {
                 hThread = new Thread(new RequestHandler());
                 hThread.start();
-
-                posPrinter.printBitmap(Path, LKPrint.LK_ALIGNMENT_CENTER);
+                Bitmap bitmap = BitmapFactory.decodeFile(data);
+                posPrinter.printBitmap(bitmap, LKPrint.LK_ALIGNMENT_CENTER, 0);
 
                 if (hThread.isAlive()) {
-                    hThread.join(nTimeOut);
+                    hThread.join(500);
                 }
 
                 if ((hThread != null) && (hThread.isAlive())) {
@@ -49,20 +60,87 @@ public class Image {
                     hThread = null;
                 }
 
-                response = Response.getInstance().compose(true, null,
-                        "Success.");
+                response = Wifi_Response.getInstance().compose(
+                        true,
+                        null,
+                        "Success."
+                );
             }
-            else{
-                response = Response.getInstance().compose(true, null,
-                        "Not connected.");
-            }
+        }
+        catch (Exception e) {
+            response = Wifi_Response.getInstance().compose(
+                    false,
+                    e,
+                    "InterruptedException on connecting to wifi print."
+            );
+        }
 
-        } catch (IOException e) {
-            response = Response.getInstance().compose(false, e,
-                    "IOException on connecting to wifi print.");
-        } catch (InterruptedException e) {
-            response = Response.getInstance().compose(false, e,
-                    "InterruptedException on connecting to wifi print.");
+        return response;
+    }
+
+    public Wifi_Response print(Context context, String IP, Bitmap data, boolean cut) {
+
+        Thread hThread;
+        ESCPOSPrinter posPrinter;
+        WiFiPort wifiPort;
+        posPrinter = new ESCPOSPrinter();
+        Boolean connected;
+
+        connected = false;
+        wifiPort = WiFiPort.getInstance();
+
+        //connect to wifi port
+        try {
+            wifiPort.connect(IP);
+            connected = true;
+        } catch (Exception e) {
+            response = Wifi_Response.getInstance().compose(
+                    false,
+                    e,
+                    "IOException on connecting to wifi print."
+            );
+        }
+
+        try {
+            if(connected) {
+                hThread = new Thread(new RequestHandler());
+                hThread.start();
+                int result = posPrinter.printBitmap(data, LKPrint.LK_ALIGNMENT_CENTER, 0);
+                if(result == 0){
+                    response = Wifi_Response.getInstance().compose(
+                            true,
+                            null,
+                            "Success."
+                    );
+
+                    if(cut){
+                        posPrinter.cutPaper();
+                    }
+                }
+                else{
+                    response = Wifi_Response.getInstance().compose(
+                            false,
+                            null,
+                            "An error occurred in Image.plain() - Wifi Module."
+                    );
+                }
+
+                if (hThread.isAlive()) {
+                    hThread.join(500);
+                }
+
+                if ((hThread != null) && (hThread.isAlive())) {
+                    hThread.interrupt();
+                    hThread = null;
+                }
+            }
+        }
+        catch (Exception e) {
+            response = Wifi_Response.getInstance().compose(
+                    false,
+                    e,
+                    "InterruptedException on connecting to wifi print."
+            );
         }
 
         return response;

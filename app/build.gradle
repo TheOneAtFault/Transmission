@@ -30,6 +30,6 @@ dependencies {
     implementation project(":usb")
     implementation project(":aidl")
     implementation project(path: ':serial')
-
+    implementation project(path: ':wifi')
 
 }

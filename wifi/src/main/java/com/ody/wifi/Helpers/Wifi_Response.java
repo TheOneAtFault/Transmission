@@ -6,13 +6,13 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 //todo: explain class
-public class Response {
+public class Wifi_Response {
     private boolean bSuccess;
     private String sErrorMessage;
     private String sCustomMessage;
-    private static Response mResponse = new Response();
+    private static Wifi_Response mWifiResponse = new Wifi_Response();
 
-    private Response(){
+    private Wifi_Response(){
     }
 
     public boolean isSuccess() {
@@ -39,31 +39,31 @@ public class Response {
         sCustomMessage = message;
     }
 
-    public Response compose(boolean status, @Nullable Exception exception,@Nullable String message){
-       // Response response = new Response();
+    public Wifi_Response compose(boolean status, @Nullable Exception exception, @Nullable String message){
+       // Wifi_Response response = new Wifi_Response();
 
         if (exception != null) {
             Writer writer = new StringWriter();
             exception.printStackTrace(new PrintWriter(writer));
             String exceptionMessage = writer.toString();
-            mResponse.setsErrorMessage(exceptionMessage);
+            mWifiResponse.setsErrorMessage(exceptionMessage);
         } else {
-            mResponse.setsErrorMessage("NaN");
+            mWifiResponse.setsErrorMessage("NaN");
         }
 
         if(message != null){
-            mResponse.setsCustomMessage(message);
+            mWifiResponse.setsCustomMessage(message);
         }
         else{
-            mResponse.setsCustomMessage("");
+            mWifiResponse.setsCustomMessage("");
         }
 
-        mResponse.setSuccess(status);
+        mWifiResponse.setSuccess(status);
 
-        return mResponse;
+        return mWifiResponse;
     }
 
-    public static Response getInstance(){
-        return mResponse;
+    public static Wifi_Response getInstance(){
+        return mWifiResponse;
     }
 }
