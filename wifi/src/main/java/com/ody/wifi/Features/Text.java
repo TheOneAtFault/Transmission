@@ -8,6 +8,7 @@ import com.ody.wifi.Classes.WiFiPort;
 import com.ody.wifi.Helpers.Wifi_Response;
 
 import java.io.IOException;
+
 //todo: get done
 public class Text {
     private static Text mText = new Text();
@@ -21,78 +22,68 @@ public class Text {
         Thread hThread;
         ESCPOSPrinter posPrinter = new ESCPOSPrinter();
         WiFiPort wifiPort = WiFiPort.getInstance();
-        Boolean connected = false;
+        boolean connected = false;
 
         try {
             wifiPort.connect(ip);
             connected = true;
 
-            if (connected) {
-                hThread = new Thread(new RequestHandler());
-                hThread.start();
+            hThread = new Thread(new RequestHandler());
+            hThread.start();
 
+            try {
+                posPrinter.printNormal(data + "\n");
+
+                if (cut) {
+                    posPrinter.cutPaper();
+                }
+
+                response = Wifi_Response.getInstance().compose(
+                        true,
+                        null,
+                        "Success"
+                );
+            } catch (IOException e) {
+                response = Wifi_Response.getInstance().compose(
+                        false,
+                        e,
+                        "Exception in Text.plain() - wifi"
+                );
+            }
+
+            if (hThread.isAlive()) {
                 try {
-                    posPrinter.printNormal(data);
-
-                    if(cut){
-                        posPrinter.cutPaper();
-                    }
-
-                    response = Wifi_Response.getInstance().compose(
-                            true,
-                            null,
-                            "Success"
-                    );
-                } catch (IOException e) {
+                    hThread.join(500);
+                } catch (InterruptedException e) {
                     response = Wifi_Response.getInstance().compose(
                             false,
                             e,
-                            "Exception in Text.plain() - wifi"
+                            "Exception in Text.plain() threading section - wifi"
                     );
                 }
-
-                if (hThread.isAlive()) {
-                    try {
-                        hThread.join(500);
-                    } catch (InterruptedException e) {
-                        response = Wifi_Response.getInstance().compose(
-                                false,
-                                e,
-                                "Exception in Text.plain() threading section - wifi"
-                        );
-                    }
-                }
-
-                if ((hThread != null) && (hThread.isAlive())) {
-                    hThread.interrupt();
-                    hThread = null;
-                }
-
-                if (connected) {
-                    try {
-                        wifiPort.disconnect();
-                    } catch (IOException e) {
-                        response = Wifi_Response.getInstance().compose(
-                                false,
-                                e,
-                                "IO Exception in Text.plain() - wifi"
-                        );
-                    } catch (InterruptedException e) {
-                        response = Wifi_Response.getInstance().compose(
-                                false,
-                                e,
-                                "Interrupted Exception in Text.plain() - wifi"
-                        );
-                    }
-                }
             }
-            else{
+
+            if ((hThread != null) && (hThread.isAlive())) {
+                hThread.interrupt();
+                hThread = null;
+            }
+
+            try {
+                wifiPort.disconnect();
+            } catch (IOException e) {
                 response = Wifi_Response.getInstance().compose(
                         false,
-                        null,
-                        "Unable to connect to Wifi Printer - Wifi"
+                        e,
+                        "IO Exception in Text.plain() - wifi"
+                );
+            } catch (InterruptedException e) {
+                response = Wifi_Response.getInstance().compose(
+                        false,
+                        e,
+                        "Interrupted Exception in Text.plain() - wifi"
                 );
             }
+
         } catch (Exception e) {
             response = Wifi_Response.getInstance().compose(
                     false,

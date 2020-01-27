@@ -27,7 +27,7 @@ public class Image {
         ESCPOSPrinter posPrinter;
         WiFiPort wifiPort;
         posPrinter = new ESCPOSPrinter();
-        Boolean connected;
+        boolean connected;
 
         connected = false;
         wifiPort = WiFiPort.getInstance();
@@ -74,6 +74,25 @@ public class Image {
                     "InterruptedException on connecting to wifi print."
             );
         }
+        finally {
+            if (connected) {
+                try {
+                    wifiPort.disconnect();
+                } catch (IOException e) {
+                    response = Wifi_Response.getInstance().compose(
+                            false,
+                            e,
+                            "IO Exception in [string]Image.print() - wifi"
+                    );
+                } catch (InterruptedException e) {
+                    response = Wifi_Response.getInstance().compose(
+                            false,
+                            e,
+                            "Interrupted Exception in [string]Image.print() - wifi"
+                    );
+                }
+            }
+        }
 
         return response;
     }
@@ -84,7 +103,7 @@ public class Image {
         ESCPOSPrinter posPrinter;
         WiFiPort wifiPort;
         posPrinter = new ESCPOSPrinter();
-        Boolean connected;
+        boolean connected;
 
         connected = false;
         wifiPort = WiFiPort.getInstance();
@@ -141,6 +160,25 @@ public class Image {
                     e,
                     "InterruptedException on connecting to wifi print."
             );
+        }
+        finally {
+            if (connected) {
+                try {
+                    wifiPort.disconnect();
+                } catch (IOException e) {
+                    response = Wifi_Response.getInstance().compose(
+                            false,
+                            e,
+                            "IO Exception in [bitmap]Image.print() - wifi"
+                    );
+                } catch (InterruptedException e) {
+                    response = Wifi_Response.getInstance().compose(
+                            false,
+                            e,
+                            "Interrupted Exception in [bitmap]Image.print() - wifi"
+                    );
+                }
+            }
         }
 
         return response;

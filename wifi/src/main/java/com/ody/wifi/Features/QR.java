@@ -14,6 +14,7 @@ import com.ody.wifi.Classes.WiFiPort;
 import com.ody.wifi.Helpers.Wifi_Response;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class QR {
     private static QR mQr;
@@ -35,7 +36,7 @@ public class QR {
         ESCPOSPrinter posPrinter;
         WiFiPort wifiPort;
         posPrinter = new ESCPOSPrinter();
-        Boolean connected;
+        boolean connected;
 
         connected = false;
         wifiPort = WiFiPort.getInstance();
@@ -59,10 +60,12 @@ public class QR {
 
                 int result = posPrinter.printBitmap(_bitmap, LKPrint.LK_ALIGNMENT_CENTER, 0);
 
-                if (result == 0 && cut){
-                    posPrinter.cutPaper();
+                if (result == 0){
+                    if(cut){
+                        posPrinter.cutPaper();
+                    }
                 }else{
-                    return response = Wifi_Response.getInstance().compose(false, null,
+                    response = Wifi_Response.getInstance().compose(false, null,
                             "An error occurred in QR.print() - Wifi Module");
                 }
 
@@ -89,6 +92,25 @@ public class QR {
                     "InterruptedException on connecting to wifi printer - QR.print()."
             );
         }
+        finally {
+            if (connected) {
+                try {
+                    wifiPort.disconnect();
+                } catch (IOException e) {
+                    response = Wifi_Response.getInstance().compose(
+                            false,
+                            e,
+                            "IO Exception in Text.plain() - wifi"
+                    );
+                } catch (InterruptedException e) {
+                    response = Wifi_Response.getInstance().compose(
+                            false,
+                            e,
+                            "Interrupted Exception in Text.plain() - wifi"
+                    );
+                }
+            }
+        }
 
         return response;
     }
@@ -107,9 +129,7 @@ public class QR {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte[] b = baos.toByteArray();
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(b, 0, b.length);
-
-            return decodedByte;
+            return BitmapFactory.decodeByteArray(b, 0, b.length);
         } catch (Exception e) {
             response = Wifi_Response.getInstance().compose(
                     false,

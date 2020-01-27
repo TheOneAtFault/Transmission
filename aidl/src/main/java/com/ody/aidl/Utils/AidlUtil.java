@@ -74,6 +74,7 @@ public class AidlUtil {
             try {
                 woyouService.setAlignment(1, null);//alignment set to 1 = center
                 woyouService.printQRCode(data, modulesize, errorlevel, null);
+                woyouService.setAlignment(0, null);//alignment set to 1 = center
                 response = Response.getInstance().compose(true, null, "Success on: printQr - Aidl");
             } catch (RemoteException e) {
                 response = Response.getInstance().compose(false, e, "Exception on: printQr - Aidl");
