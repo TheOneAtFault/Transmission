@@ -1,7 +1,5 @@
 package com.ody.wifi.Features;
 
-import android.content.Context;
-
 import com.ody.wifi.Classes.ESCPOSPrinter;
 import com.ody.wifi.Classes.RequestHandler;
 import com.ody.wifi.Classes.WiFiPort;
@@ -17,7 +15,7 @@ public class Cutter {
         return mCutter = new Cutter();
     }
 
-    public Wifi_Response cut(Context context, String address) {
+    public Wifi_Response cut(String address) {
         Thread hThread;
         ESCPOSPrinter escposPrinter = new ESCPOSPrinter();
         WiFiPort wifiPort = WiFiPort.getInstance();

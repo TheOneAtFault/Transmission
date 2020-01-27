@@ -18,7 +18,7 @@ public class Text {
         return mText = new Text();
     }
 
-    public Wifi_Response plain(Context context, String ip, String data, boolean cut) {
+    public Wifi_Response plain(String ip, String data, boolean cut) {
         Thread hThread;
         ESCPOSPrinter posPrinter = new ESCPOSPrinter();
         WiFiPort wifiPort = WiFiPort.getInstance();

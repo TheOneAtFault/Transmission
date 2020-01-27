@@ -64,7 +64,7 @@ public class WifiActivity extends AppCompatActivity {
             public void onClick(View v) {
                 _address = address.getText().toString();
                 if (!TextUtils.isEmpty(_address)) {
-                    wifiCut(_context, _address);
+                    wifiCut(_address);
                 } else {
                     Toast.makeText(_context, "Enter the printer address", Toast.LENGTH_LONG).show();
                 }
@@ -76,7 +76,7 @@ public class WifiActivity extends AppCompatActivity {
             public void onClick(View v) {
                 _address = address.getText().toString();
                 if (!TextUtils.isEmpty(_address)) {
-                    wifiQR(_context, _address);
+                    wifiQR(_address);
                 } else {
                     Toast.makeText(_context, "Enter the printer address", Toast.LENGTH_LONG).show();
                 }
@@ -88,7 +88,7 @@ public class WifiActivity extends AppCompatActivity {
             public void onClick(View v) {
                 _address = address.getText().toString();
                 if (!TextUtils.isEmpty(_address)) {
-                    wifiImage(_context, _address);
+                    wifiImage(_address);
                 } else {
                     Toast.makeText(_context, "Enter the printer address", Toast.LENGTH_LONG).show();
                 }
@@ -100,7 +100,7 @@ public class WifiActivity extends AppCompatActivity {
             public void onClick(View v) {
                 _address = address.getText().toString();
                 if (!TextUtils.isEmpty(_address)) {
-                    wifiText(_context, _address);
+                    wifiText(_address);
                 } else {
                     Toast.makeText(_context, "Enter the printer address", Toast.LENGTH_LONG).show();
                 }
@@ -120,8 +120,8 @@ public class WifiActivity extends AppCompatActivity {
         });
     }
 
-    private void wifiCut(Context context, String address) {
-        Wifi_Cutter.cut(context, address);
+    private void wifiCut(String address) {
+        Wifi_Cutter.cut(address);
     }
 
     private void wifiCheck(Context context, String address) {
@@ -134,8 +134,8 @@ public class WifiActivity extends AppCompatActivity {
        }
     }
 
-    private void wifiQR(Context context, String address) {
-        response = Wifi_Print.qr(context, address, "Wifi QR Printing Demo", CUT_PAPER);
+    private void wifiQR(String address) {
+        response = Wifi_Print.qr(address, "Wifi QR Printing Demo", CUT_PAPER);
         if (response.isSuccess()) {
             TextView textView = findViewById(R.id.tv_wifi_log);
             textView.setText("Complete.");
@@ -147,9 +147,8 @@ public class WifiActivity extends AppCompatActivity {
         }
     }
 
-    private void wifiImage(Context context, String address) {
+    private void wifiImage(String address) {
         _address = address;
-        context = context;
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/");
         //We pass an extra array with the accepted mime types. This will ensure only components
@@ -160,8 +159,8 @@ public class WifiActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Image"), GET_FROM_GALLERY);
     }
 
-    private void wifiText(Context context, String address) {
-        response = Wifi_Print.text(context, address, "Wifi Text Printing Demo \n", CUT_PAPER);
+    private void wifiText(String address) {
+        response = Wifi_Print.text(address, "Wifi Text Printing Demo \n", CUT_PAPER);
         if (response.isSuccess()) {
             TextView textView = findViewById(R.id.tv_wifi_log);
             textView.setText("Complete.");
@@ -188,7 +187,7 @@ public class WifiActivity extends AppCompatActivity {
             ImageView ivThumbnailPhoto = findViewById(R.id.imageView);
             ivThumbnailPhoto.setImageBitmap(bitmap);
             try {
-                response = Wifi_Print.image(this, _address, bitmap, CUT_PAPER);
+                response = Wifi_Print.image(_address, bitmap, CUT_PAPER);
             } catch (Exception e) {
                 TextView log = findViewById(R.id.tv_usb_log);
                 Writer writer = new StringWriter();

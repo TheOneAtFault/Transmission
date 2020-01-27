@@ -18,7 +18,7 @@ public class Text {
                 byte[] btContent = content.getBytes();
                 response = AidlUtil.getInstance().sendRawData(btContent);
                 if (response.isSuccess() && cut) {
-                    AidlUtil.getInstance().padding(padding);
+                    //AidlUtil.getInstance().padding(padding);
                     AidlUtil.getInstance().makeCut();
                 }
                 else{

@@ -21,7 +21,7 @@ public class Image {
         return mImage = new Image();
     }
 
-    public Wifi_Response print(Context context, String IP, String data, boolean cut) {
+    public Wifi_Response print(String IP, String data, boolean cut) {
 
         Thread hThread;
         ESCPOSPrinter posPrinter;
@@ -97,7 +97,7 @@ public class Image {
         return response;
     }
 
-    public Wifi_Response print(Context context, String IP, Bitmap data, boolean cut) {
+    public Wifi_Response print(String IP, Bitmap data, boolean cut) {
 
         Thread hThread;
         ESCPOSPrinter posPrinter;
