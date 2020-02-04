@@ -47,7 +47,7 @@ public class Text {
      */
     public USB_Response plain(Context context, int vendorId, String content){
         //set variables
-        content = content + "\n";
+        content = content;
         USB_Response USBResponse = USB_Response.getInstance();
         boolean bHasPermission = false;
 

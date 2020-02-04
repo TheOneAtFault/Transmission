@@ -45,6 +45,11 @@ public class ESCPOS {
         return EPCommand((byte)29, 'V', 65 , 3);
     }
 
+    public byte[] ESC_AT()
+    {
+        return EPCommand((byte)27, '@', 0);
+    }
+
     public byte[] ESC_M(int n)
     {
         return EPCommand((byte)27, 'M', n);

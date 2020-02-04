@@ -45,6 +45,7 @@ public class ESCPOSPrinter {
     public void printNormal(String data)
             throws UnsupportedEncodingException {
         this.olepos.parseJposCMD(data);
+        this.requestQueue.addRequest(this.escpos.ESC_AT());
     }
 
     public int printBitmap( int alignment, @Nullable Bitmap image)
@@ -65,7 +66,7 @@ public class ESCPOSPrinter {
             this.requestQueue.addRequest(this.escpos.ESC_a(alignment));
 
             this.requestQueue.addRequest(this.escpos.GS_v(size, mConverter.getxL(), mConverter.getxH(), mConverter.getyL(), mConverter.getyH(), bimg));
-            this.requestQueue.addRequest(this.escpos.ESC_a(0));
+            this.requestQueue.addRequest(this.escpos.ESC_AT());
             return 0;
         }
         return -1;
