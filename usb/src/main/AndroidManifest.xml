@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ody.usb" >
     <application>
+        <service android:name="com.ody.usb.ServiceWorkers.PollingForHarambe"
+            android:exported="false"/>
     </application>
 </manifest>

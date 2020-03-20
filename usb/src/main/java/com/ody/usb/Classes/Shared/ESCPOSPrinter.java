@@ -1,6 +1,7 @@
 package com.ody.usb.Classes.Shared;
 
 import android.graphics.Bitmap;
+import android.os.SystemClock;
 
 import androidx.annotation.Nullable;
 
@@ -46,6 +47,12 @@ public class ESCPOSPrinter {
             throws UnsupportedEncodingException {
         this.olepos.parseJposCMD(data);
         this.requestQueue.addRequest(this.escpos.ESC_AT());
+    }
+
+    public void display(String data)
+            throws UnsupportedEncodingException {
+        this.requestQueue.addRequest(this.escpos.ESC_AT());
+        this.olepos.parseJposCMD(data);
     }
 
     public int printBitmap( int alignment, @Nullable Bitmap image)

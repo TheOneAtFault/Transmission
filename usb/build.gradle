@@ -33,4 +33,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.zxing:core:3.4.0'
     implementation 'com.google.zxing:javase:3.3.0'
+    implementation files('libs\\pl2303driver.jar')
 }

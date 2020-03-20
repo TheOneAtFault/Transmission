@@ -8,10 +8,12 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import com.ody.usb.Helpers.USB_Response;
 import com.ody.usb.Services.USB_Cutter;
 import com.ody.usb.Services.USB_Devices;
+import com.ody.usb.Services.USB_Polling;
 import com.ody.usb.Services.USB_Print;
 
 import java.io.IOException;
@@ -35,7 +38,8 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
     private int vendorId = 0;
     private ImageView someview;
     private USB_Response response;
-
+    private String _input;
+    EditText input;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +68,9 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
         Button devices = findViewById(R.id.btn_usb_showDevices);
         Button qr = findViewById(R.id.btn_usb_qr);
         Button fullCut = findViewById(R.id.btn_usb_fullcut);
+        Button pollingDisplay = findViewById(R.id.usb_btn_pollingDisplay);
+        input = findViewById(R.id.edt_usb_input);
+        input.setText("1234");
         qr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,6 +89,15 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
                 printText();
             }
         });
+
+        pollingDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                _input = input.getText().toString();
+                displayText();
+            }
+        });
+
         textImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +110,9 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
                 getDevices();
             }
         });
+
+
+        //serial driver
 
     }
 
@@ -128,6 +147,25 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
         textView.setText("Error Message:" + response.getsErrorMessage() +
                 "\n" +
                 "Output Message: " + response.getsCustomMessage());
+    }
+
+    //display Text
+    public void displayText() {
+        try{
+            response = USB_Polling.write(
+                    this,
+                    vendorId,
+                    _input
+            );
+
+            TextView textView = findViewById(R.id.tv_usb_log);
+            textView.setText("Error Message:" + response.getsErrorMessage() +
+                    "\n" +
+                    "Output Message: " + response.getsCustomMessage());
+        }catch (Exception e){
+            Log.e("USBActivity","Display Test Broken", e);
+        }
+
     }
 
     //USB_Print Image
