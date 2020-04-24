@@ -21,7 +21,6 @@ import android.widget.TextView;
 import com.ody.usb.Helpers.USB_Response;
 import com.ody.usb.Services.USB_Cutter;
 import com.ody.usb.Services.USB_Devices;
-import com.ody.usb.Services.USB_Polling;
 import com.ody.usb.Services.USB_Print;
 
 import java.io.IOException;
@@ -90,14 +89,6 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
             }
         });
 
-        pollingDisplay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                _input = input.getText().toString();
-                displayText();
-            }
-        });
-
         textImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,25 +138,6 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
         textView.setText("Error Message:" + response.getsErrorMessage() +
                 "\n" +
                 "Output Message: " + response.getsCustomMessage());
-    }
-
-    //display Text
-    public void displayText() {
-        try{
-            response = USB_Polling.write(
-                    this,
-                    vendorId,
-                    _input
-            );
-
-            TextView textView = findViewById(R.id.tv_usb_log);
-            textView.setText("Error Message:" + response.getsErrorMessage() +
-                    "\n" +
-                    "Output Message: " + response.getsCustomMessage());
-        }catch (Exception e){
-            Log.e("USBActivity","Display Test Broken", e);
-        }
-
     }
 
     //USB_Print Image
