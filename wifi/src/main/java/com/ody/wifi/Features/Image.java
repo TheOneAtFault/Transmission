@@ -16,7 +16,8 @@ public class Image {
 
     private static Image mImage;
     private Wifi_Response response;
-
+    private int imageWidth = 200;
+    private int imageHeight = 200;
     public static Image getInstance() {
         return mImage = new Image();
     }
@@ -49,6 +50,7 @@ public class Image {
                 hThread = new Thread(new RequestHandler());
                 hThread.start();
                 Bitmap bitmap = BitmapFactory.decodeFile(data);
+                bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, false);
                 posPrinter.printBitmap(bitmap, LKPrint.LK_ALIGNMENT_CENTER, 0);
 
                 if (hThread.isAlive()) {
@@ -124,6 +126,7 @@ public class Image {
             if(connected) {
                 hThread = new Thread(new RequestHandler());
                 hThread.start();
+                data = Bitmap.createScaledBitmap(data,imageWidth,imageHeight,false);
                 int result = posPrinter.printBitmap(data, LKPrint.LK_ALIGNMENT_CENTER, 0);
                 if(result == 0){
                     response = Wifi_Response.getInstance().compose(

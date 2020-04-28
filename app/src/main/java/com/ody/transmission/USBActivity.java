@@ -172,7 +172,7 @@ public class USBActivity extends AppCompatActivity implements AdapterView.OnItem
             ImageView ivThumbnailPhoto = findViewById(R.id.imageView);
             ivThumbnailPhoto.setImageBitmap(bitmap);
             try {
-                response = USB_Print.image(this, vendorId, bitmap);
+                response = USB_Print.image(this, vendorId, bitmap, false,1);
             } catch (Exception e) {
                 TextView log = findViewById(R.id.tv_usb_log);
                 Writer writer = new StringWriter();

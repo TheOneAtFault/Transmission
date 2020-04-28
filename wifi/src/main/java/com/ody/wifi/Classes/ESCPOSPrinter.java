@@ -52,7 +52,10 @@ public class ESCPOSPrinter {
             byte[] bimg = mConverter.convertBitImage(img, imageLoader.getThresHoldValue());
             this.requestQueue.addRequest(this.escpos.ESC_a(alignment));
             this.requestQueue.addRequest(this.escpos.GS_v(size, mConverter.getxL(), mConverter.getxH(), mConverter.getyL(), mConverter.getyH(), bimg));
+            this.requestQueue.addRequest(this.escpos.ESC_d(1));//line feed
             this.requestQueue.addRequest(this.escpos.ESC_AT());
+            //reset alignment
+            this.requestQueue.addRequest(this.escpos.ESC_a(0));
             return 0;
         }
         return -1;

@@ -29,6 +29,9 @@ public class Image {
     private boolean bHasPermission = false;
     private USB_Response USBResponse = USB_Response.getInstance();
 
+    private int imageWidth = 200;
+    private int imageHeight = 200;
+
     private Image() {
     }
 
@@ -43,7 +46,7 @@ public class Image {
         mContext = null;
     }
 
-    public USB_Response plainImage(Context context, int vendorId, @Nullable Bitmap image) {
+    public USB_Response plainImage(Context context, int vendorId, @Nullable Bitmap image, boolean cut, int padding) {
         //set the application context passed from the call
         connectService(context);
 
@@ -76,9 +79,16 @@ public class Image {
 
                     if (bHasPermission) {
                         portConnection = port.connect_device(mDevice);
+                        Bitmap bitmap = Bitmap.createScaledBitmap(image, imageWidth, imageHeight, false);
                         ESCPOSPrinter POSPrinter = new ESCPOSPrinter(portConnection);
                         //Get on with it
-                        POSPrinter.printBitmap(1, image); //0 - left align, 1 - center align, 2 - right align
+                        POSPrinter.printBitmap(1, bitmap,0); //0 - left align, 1 - center align, 2 - right align
+                        if(cut){
+
+                            POSPrinter.cutPaper();
+                        }else{
+
+                        }
                         USBResponse = USB_Response.getInstance().compose(true, null, "Success");
                     }
                 } catch (Exception e) {
@@ -89,7 +99,7 @@ public class Image {
         return USBResponse;
     }
 
-    public USB_Response plainImage(Context context, int vendorId, @Nullable String image) {
+    public USB_Response plainImage(Context context, int vendorId, @Nullable String image, boolean cut, int padding) {
         //set the application context passed from the call
         connectService(context);
 
@@ -125,7 +135,14 @@ public class Image {
                         ESCPOSPrinter POSPrinter = new ESCPOSPrinter(portConnection);
                         //Get on with it
                         Bitmap bitmap = BitmapFactory.decodeFile(image);
-                        POSPrinter.printBitmap(1, bitmap); //0 - left align, 1 - center align, 2 - right align
+                        bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, false);
+                        POSPrinter.printBitmap(1, bitmap,0); //0 - left align, 1 - center align, 2 - right align
+                        if(cut){
+                            POSPrinter.padding(padding);
+                            POSPrinter.cutPaper();
+                        }else{
+                            POSPrinter.padding(padding);
+                        }
                         USBResponse = USB_Response.getInstance().compose(true, null, "Success");
                     }
                 } catch (Exception e) {

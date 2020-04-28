@@ -94,7 +94,7 @@ public class QR {
                             portConnection = port.connect_device(mDevice);
                             ESCPOSPrinter POSPrinter = new ESCPOSPrinter(portConnection);
                             //0 - left align, 1 - center align, 2 - right align
-                            POSPrinter.printBitmap(1, generatedQR);
+                            POSPrinter.printBitmap(1, generatedQR,0);
 
                             response = USB_Response.getInstance().compose(
                                     true,

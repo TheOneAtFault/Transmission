@@ -50,6 +50,10 @@ public class ESCPOS {
         return EPCommand((byte)27, '@', 0);
     }
 
+    public byte[] ESC_LF(int n){
+        return EPCommand((byte)27, 'd', n);
+    }
+
     public byte[] ESC_M(int n)
     {
         return EPCommand((byte)27, 'M', n);

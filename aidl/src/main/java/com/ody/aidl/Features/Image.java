@@ -20,6 +20,8 @@ public class Image {
     private static Response response;
     Context context;
     private static Image mImage;
+    private int imageWidth = 200;
+    private int imageHeight = 200;
 
     private Image() {
     }
@@ -51,8 +53,10 @@ public class Image {
                 options.inTargetDensity = 160;
                 options.inDensity = 160;
                 Bitmap bitmap = BitmapFactory.decodeFile(image);
+                bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, false);
 
                 response = AidlUtil.getInstance().printBitmap(bitmap, myorientation);
+
                 if (response.isSuccess() && cut) {
                     AidlUtil.getInstance().padding(padding);
                     AidlUtil.getInstance().makeCut();
@@ -66,8 +70,10 @@ public class Image {
                 options.inTargetDensity = 160;
                 options.inDensity = 160;
                 Bitmap bitmap = BitmapFactory.decodeResource(AIDLProvider.getApplication().getResources(), R.mipmap.ody, options);
+                bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, false);
 
                 AidlUtil.getInstance().printBitmap(bitmap, myorientation);
+
                 if (cut) {
                     AidlUtil.getInstance().padding(padding);
                     AidlUtil.getInstance().makeCut();
@@ -81,61 +87,65 @@ public class Image {
             response = Response.getInstance().compose(false, e, "Exception in image aidl");
         }
         //finally {
-          //  //AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
+        //  //AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
         //}
 
-            return response;
-        }
-
-        public Response print (@Nullable Bitmap image,int inTargetDensity, int inDensity,
-        boolean cut, int padding){
-            try {
-                if (inTargetDensity != 0) {
-                    IN_TARGET_DENSITY = inTargetDensity;
-                }
-                if (inDensity != 0) {
-                    IN_DENSITY = inDensity;
-                }
-
-                //set options
-                //todo add options if required
-                if (image != null) {
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inTargetDensity = 160;
-                    options.inDensity = 160;
-
-                    AidlUtil.getInstance().printBitmap(image, myorientation);
-                    if (cut) {
-                        AidlUtil.getInstance().padding(padding);
-                        AidlUtil.getInstance().makeCut();
-                    } else {
-                        AidlUtil.getInstance().padding(padding);
-                    }
-                    //set response
-                    response = Response.getInstance().compose(true, null, "success");
-                } else { //default set
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inTargetDensity = 160;
-                    options.inDensity = 160;
-                    Bitmap bitmap = BitmapFactory.decodeResource(AIDLProvider.getApplication().getResources(), R.mipmap.ody, options);
-
-                    AidlUtil.getInstance().printBitmap(bitmap, myorientation);
-                    if (cut) {
-                        AidlUtil.getInstance().padding(padding);
-                        AidlUtil.getInstance().makeCut();
-                    } else {
-                        AidlUtil.getInstance().padding(padding);
-                    }
-                    //set response
-                    response = Response.getInstance().compose(true, null, "success");
-                }
-            } catch (Exception e) {
-                response = Response.getInstance().compose(false, e, "Exception in image aidl");
+        return response;
+    }
+    //bitmap
+    public Response print(@Nullable Bitmap image, int inTargetDensity, int inDensity,
+                          boolean cut, int padding) {
+        try {
+            if (inTargetDensity != 0) {
+                IN_TARGET_DENSITY = inTargetDensity;
             }
+            if (inDensity != 0) {
+                IN_DENSITY = inDensity;
+            }
+
+            //set options
+            //todo add options if required
+            if (image != null) {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inTargetDensity = 160;
+                options.inDensity = 160;
+                image = Bitmap.createScaledBitmap(image, imageWidth, imageHeight, false);
+
+                AidlUtil.getInstance().printBitmap(image, myorientation);
+
+                if (cut) {
+                    AidlUtil.getInstance().padding(padding);
+                    AidlUtil.getInstance().makeCut();
+                } else {
+                    AidlUtil.getInstance().padding(padding);
+                }
+                //set response
+                response = Response.getInstance().compose(true, null, "success");
+            } else { //default set
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inTargetDensity = 160;
+                options.inDensity = 160;
+                Bitmap bitmap = BitmapFactory.decodeResource(AIDLProvider.getApplication().getResources(), R.mipmap.ody, options);
+                bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, false);
+
+                AidlUtil.getInstance().printBitmap(bitmap, myorientation);
+
+                if (cut) {
+                    AidlUtil.getInstance().padding(padding);
+                    AidlUtil.getInstance().makeCut();
+                } else {
+                    AidlUtil.getInstance().padding(padding);
+                }
+                //set response
+                response = Response.getInstance().compose(true, null, "success");
+            }
+        } catch (Exception e) {
+            response = Response.getInstance().compose(false, e, "Exception in image aidl");
+        }
             /*finally {
                 //AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
             }*/
 
-            return response;
-        }
+        return response;
     }
+}

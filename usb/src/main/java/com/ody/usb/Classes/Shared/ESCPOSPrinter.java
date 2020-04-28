@@ -55,12 +55,12 @@ public class ESCPOSPrinter {
         this.olepos.parseJposCMD(data);
     }
 
-    public int printBitmap( int alignment, @Nullable Bitmap image)
+    public int printBitmap( int alignment, @Nullable Bitmap image, int padding)
             throws IOException {
-        return printBitmap(alignment, 0, 0, image);
+        return printBitmap(alignment, 0, 0, image, padding);
     }
 
-    private int printBitmap(int alignment, int size, int mode,@Nullable Bitmap image)
+    private int printBitmap(int alignment, int size, int mode,@Nullable Bitmap image, int padding)
             throws IOException
     {
         ImageLoader imageLoader = new ImageLoader();
@@ -73,7 +73,9 @@ public class ESCPOSPrinter {
             this.requestQueue.addRequest(this.escpos.ESC_a(alignment));
 
             this.requestQueue.addRequest(this.escpos.GS_v(size, mConverter.getxL(), mConverter.getxH(), mConverter.getyL(), mConverter.getyH(), bimg));
+            this.requestQueue.addRequest(this.escpos.ESC_d(padding));
             this.requestQueue.addRequest(this.escpos.ESC_AT());
+
             return 0;
         }
         return -1;
@@ -81,5 +83,8 @@ public class ESCPOSPrinter {
 
     public void cutPaper(){
         this.requestQueue.addRequest(this.escpos.ESC_cut());
+    }
+    public void padding(int n){
+        this.requestQueue.addRequest(this.escpos.ESC_LF(1));
     }
 }

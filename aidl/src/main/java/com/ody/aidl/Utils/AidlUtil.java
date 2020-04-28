@@ -74,7 +74,6 @@ public class AidlUtil {
             try {
                 woyouService.setAlignment(1, null);//alignment set to 1 = center
                 woyouService.printQRCode(data, modulesize, errorlevel, null);
-                woyouService.setAlignment(0, null);//alignment set to 1 = center
                 response = Response.getInstance().compose(true, null, "Success on: printQr - Aidl");
             } catch (RemoteException e) {
                 response = Response.getInstance().compose(false, e, "Exception on: printQr - Aidl");
@@ -89,10 +88,11 @@ public class AidlUtil {
     public Response printBitmap(Bitmap bitmap, int orientation) {
         if (woyouService != null) {
             try {
+                woyouService.setAlignment(1,null);
                 if (orientation == 0) {
-                    woyouService.printBitmap(bitmap, null);
+                   woyouService.printBitmap(bitmap, null);
                 } else {
-                    woyouService.printBitmap(bitmap, null);
+                   woyouService.printBitmap(bitmap, null);
                 }
                 response = Response.getInstance().compose(true, null, "Success on: printBitmap - Aidl");
             } catch (RemoteException e) {
@@ -138,6 +138,40 @@ public class AidlUtil {
         if (woyouService != null) {
             try {
                 woyouService.lineWrap(howMuch, null);
+                response = Response.getInstance().compose(true, null, "Success on: padding - Aidl");
+            }
+            catch (Exception e){
+                response = Response.getInstance().compose(false, e, "Exception on: padding - Aidl");
+            }
+        }
+        else
+        {
+            response = Response.getInstance().compose(false, null, "Service is null on: padding - Aidl");
+        }
+        return response;
+    }
+
+    public Response alignment_center(){
+        if (woyouService != null) {
+            try {
+                woyouService.setAlignment(1, null);
+                response = Response.getInstance().compose(true, null, "Success on: padding - Aidl");
+            }
+            catch (Exception e){
+                response = Response.getInstance().compose(false, e, "Exception on: padding - Aidl");
+            }
+        }
+        else
+        {
+            response = Response.getInstance().compose(false, null, "Service is null on: padding - Aidl");
+        }
+        return response;
+    }
+
+    public Response alignment_left(){
+        if (woyouService != null) {
+            try {
+                woyouService.setAlignment(0, null);
                 response = Response.getInstance().compose(true, null, "Success on: padding - Aidl");
             }
             catch (Exception e){
