@@ -32,7 +32,7 @@ public class Text {
             hThread.start();
 
             try {
-                posPrinter.printNormal(data + "\n");
+                posPrinter.printNormal(data);
 
                 if (cut) {
                     posPrinter.cutPaper();

@@ -49,6 +49,7 @@ public class Image {
             if(connected) {
                 hThread = new Thread(new RequestHandler());
                 hThread.start();
+
                 Bitmap bitmap = BitmapFactory.decodeFile(data);
                 bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, false);
                 posPrinter.printBitmap(bitmap, LKPrint.LK_ALIGNMENT_CENTER, 0);
