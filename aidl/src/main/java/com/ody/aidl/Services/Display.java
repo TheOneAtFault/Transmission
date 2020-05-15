@@ -61,4 +61,29 @@ public class Display {
         }
         return response;
     }
+
+    public static void lcdQR(String qrData) {
+        try {
+            DigitalDisplay.getInstance().displayQR(qrData);
+        } catch (Exception e) {
+            //response = Response.getInstance().compose(false, e, "Exception in lcdQR - Polling Display");
+        }
+    }
+
+    public static void lcdBranding(String qrData, String image) {
+        try {
+            DigitalDisplay.getInstance().displayBranding(qrData, image);
+        } catch (Exception e) {
+            //response = Response.getInstance().compose(false, e, "Exception in lcdDouble - Polling Display");
+        }
+    }
+
+    public static void lcdDrawText(String item, String value) {
+        try {
+            DigitalDisplay.getInstance().drawText(item, value);
+        } catch (Exception e) {
+            //response = Response.getInstance().compose(false, e, "Exception in lcdDouble - Polling Display");
+        }
+    }
+
 }

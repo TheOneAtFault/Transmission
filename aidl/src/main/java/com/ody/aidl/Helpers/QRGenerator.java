@@ -19,7 +19,7 @@ public class QRGenerator {
     }
 
     public static Bitmap run(String data) {
-        int qrCodeDimention = 300;
+        int qrCodeDimention = 40;
         Bitmap bitmap = null;
         try {
             //size of screen: 128*40

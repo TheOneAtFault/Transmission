@@ -8,7 +8,8 @@ import woyou.aidlservice.jiuiv5.ITax;
 
 interface IWoyouService
 {
-	void updateFirmware();
+
+    boolean postPrintData(String packageName, in byte[] data, int offset, int length);
 
 	int getFirmwareStatus();
 
@@ -87,4 +88,10 @@ interface IWoyouService
     void sendLCDDoubleString(in String topText, in String bottomText, ILcdCallback callback);
 
     void printBitmapCustom(in Bitmap bitmap, in int type, in ICallback callback);
+
+   boolean getDrawerStatus();
+
+   void sendLCDFillString(in String string, int size, boolean fill, ILcdCallback callback);
+
+    void sendLCDMultiString(in String[] text, in int[] align, ILcdCallback callback);
 }
