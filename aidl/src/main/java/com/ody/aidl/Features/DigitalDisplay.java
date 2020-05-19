@@ -148,30 +148,29 @@ public class DigitalDisplay {
         if (item.length() > 16) {
 
             String[] words = item.split(" ");
-            int leng = 0;
-            if (words.length >= 3) {
-                leng = words[0].length() + words[1].length() + words[2].length();
-                if (leng <= 15) {
-                    LineOne = words[0] + " " + words[1] + " " + words[2].length();
-                } else {
-                    LineOne = words[0];
-                }
+            int spacers = 0;
+            String keeper = "";
 
-                LineTwo = item.substring(LineOne.length() + 1, item.length());
+            if ("subtotal".equals(words[0].toLowerCase())){
+                LineOne = item;
+                LineTwo = "";
                 LineThree = value;
-            } else if (words.length >= 2) {
-                leng = words[0].length() + words[1].length();
-                if (leng <= 15) {
-                    LineOne = words[0] + " " + words[1];
-                } else {
-                    LineOne = words[0];
+            }else {
+                for (int i = 0; i < words.length; i++) {
+                    keeper += words[i];
+                    if (keeper.length() < 16 && spacers - 1 < i) {
+                        LineOne += words[i] + " ";
+                        spacers++;
+                    } else {
+                        break;
+                    }
                 }
-
-                LineTwo = item.substring(LineOne.length() + 1, item.length());
-                LineThree = value;
-            } else {
-                LineOne = words[0].substring(0, words[0].length() - 3) + "...";
-                LineTwo = " ";
+                LineOne = LineOne.trim();
+                if (!(LineOne.length() >= item.length())){
+                    LineTwo = item.substring(LineOne.length() + 1, item.length());
+                }else{
+                    LineTwo = "";
+                }
                 LineThree = value;
             }
 

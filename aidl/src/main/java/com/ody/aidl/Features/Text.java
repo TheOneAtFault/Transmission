@@ -44,28 +44,4 @@ public class Text {
 
         return response;
     }
-
-    public Response asBytes(byte[] content, boolean cut, int padding) {
-        try {
-            if (content.length > 0) {
-                response = AidlUtil.getInstance().sendRawData(content);
-                if (response.isSuccess() && cut) {
-                    AidlUtil.getInstance().padding(padding);
-                    AidlUtil.getInstance().makeCut();
-                }
-                else{
-                    AidlUtil.getInstance().padding(padding);
-                }
-            } else {
-                response = Response.getInstance().compose(true, null, "Provided content was empty");
-            }
-        } catch (Exception e) {
-            response = Response.getInstance().compose(false, e, "Exception in Text.plainText");
-        }
-        /*finally {
-            //AidlUtil.getInstance().disconnectPrinterService(AIDLProvider.getApplication());
-        }*/
-
-        return response;
-    }
 }
