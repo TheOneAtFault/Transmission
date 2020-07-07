@@ -39,7 +39,7 @@ public class Cutter {
         return mCutter = new Cutter();
     }
 
-    public void cut(Context context, int vendorId) {
+    public void cut(Context context, int anId) {
         //set the application context passed from the call
         connectService(context);
 
@@ -61,8 +61,8 @@ public class Cutter {
 
         while (iterator.hasNext()) {
             mDevice = (UsbDevice) usblist.get(iterator.next());
-            //validate against vendorid
-            if (mDevice.getVendorId() == vendorId) {
+            //validate against anId
+            if (mDevice.getProductId() == anId) {
                 try {
                     if (mUsbManager.hasPermission(mDevice)) {
                         bHasPermission = true;

@@ -44,7 +44,7 @@ public class QR {
         mContext = null;
     }
 
-    public USB_Response plain(Context context, int vendorId, String data) {
+    public USB_Response plain(Context context, int anId, String data) {
         try {
             //Generate qr----------------
             generatedQR = generate(data);
@@ -74,7 +74,7 @@ public class QR {
             while (iterator.hasNext()) {
                 mDevice = (UsbDevice) usblist.get(iterator.next());
                 //validate against vendorid
-                if (mDevice.getVendorId() == vendorId) {
+                if (mDevice.getProductId() == anId) {
                     try {
                         if (mUsbManager.hasPermission(mDevice)) {
                             bHasPermission = true;

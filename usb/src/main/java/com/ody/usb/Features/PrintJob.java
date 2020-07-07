@@ -61,7 +61,7 @@ public class PrintJob {
         mContext = null;
     }
 
-    public boolean main(Context context, int vendorId) {
+    public boolean main(Context context, int anId) {
 
         //set the application context passed from the call
         connectService(context);
@@ -80,8 +80,8 @@ public class PrintJob {
 
         while (iterator.hasNext()) {
             mDevice = (UsbDevice) usblist.get(iterator.next());
-            //validate against vendorid
-            if (mDevice.getVendorId() == vendorId) {
+            //validate against anId
+            if (mDevice.getProductId() == anId) {
                 try {
                     if (mUsbManager.hasPermission(mDevice)) {
                         bHasPermission = true;

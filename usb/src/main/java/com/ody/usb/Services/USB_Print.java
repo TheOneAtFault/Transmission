@@ -16,36 +16,36 @@ public class USB_Print {
      * USB_Print plain text to POS Printer.
      *
      * @param context   = external application context(Auto-initialization failed me, </3)
-     * @param vendorId  = printing device id
+     * @param anId  = printing device id
      * @param data      = body of text to print
      * @return USB_Response Instance
      */
-    public static USB_Response textPlain(Context context, int vendorId, String data) {
-        return Text.getInstance().plain(context, vendorId, data);
+    public static USB_Response textPlain(Context context, int anId, String data) {
+        return Text.getInstance().plain(context, anId, data);
     }
 
     /**
      * USB_Print image file.
      *
      * @param context   = external application context(You know the story!)
-     * @param vendorId  = printing device id
+     * @param anId  = printing device id
      * @param data = image file path
      * @return
      */
-    public static USB_Response image(Context context, int vendorId, @Nullable Bitmap data, boolean cut, int padding) {
-        return Image.getInstance().plainImage(context, vendorId, data, cut, padding);
+    public static USB_Response image(Context context, int anId, @Nullable Bitmap data, boolean cut, int padding) {
+        return Image.getInstance().plainImage(context, anId, data, cut, padding);
     }
 
-    public static USB_Response image(Context context, int vendorId, String data, boolean cut, int padding) {
-        return Image.getInstance().plainImage(context, vendorId, data, cut, padding);
+    public static USB_Response image(Context context, int anId, String data, boolean cut, int padding) {
+        return Image.getInstance().plainImage(context, anId, data, cut, padding);
     }
 
-    public static USB_Response qr(Context context, int vendorId, String data){
-        return QR.getInstance().plain(context, vendorId, data);
+    public static USB_Response qr(Context context, int anId, String data){
+        return QR.getInstance().plain(context, anId, data);
     }
 
-    public static USB_Response slip(Context context, int vendorId, String imagePath, String body, String qrData, boolean cut, int padding){
-        PrintJob.getInstance().main(context, vendorId);
+    public static USB_Response slip(Context context, int anId, String imagePath, String body, String qrData, boolean cut, int padding){
+        PrintJob.getInstance().main(context, anId);
         return null;
     }
 }

@@ -46,7 +46,7 @@ public class Image {
         mContext = null;
     }
 
-    public USB_Response plainImage(Context context, int vendorId, @Nullable Bitmap image, boolean cut, int padding) {
+    public USB_Response plainImage(Context context, int anId, @Nullable Bitmap image, boolean cut, int padding) {
         //set the application context passed from the call
         connectService(context);
 
@@ -64,8 +64,8 @@ public class Image {
 
         while (iterator.hasNext()) {
             mDevice = (UsbDevice) usblist.get(iterator.next());
-            //validate against vendorid
-            if (mDevice.getVendorId() == vendorId) {
+            //validate against anId
+            if (mDevice.getProductId() == anId) {
                 try {
                     if (mUsbManager.hasPermission(mDevice)) {
                         bHasPermission = true;
@@ -84,10 +84,7 @@ public class Image {
                         //Get on with it
                         POSPrinter.printBitmap(1, bitmap,0); //0 - left align, 1 - center align, 2 - right align
                         if(cut){
-
                             POSPrinter.cutPaper();
-                        }else{
-
                         }
                         USBResponse = USB_Response.getInstance().compose(true, null, "Success");
                     }
@@ -99,7 +96,7 @@ public class Image {
         return USBResponse;
     }
 
-    public USB_Response plainImage(Context context, int vendorId, @Nullable String image, boolean cut, int padding) {
+    public USB_Response plainImage(Context context, int anId, @Nullable String image, boolean cut, int padding) {
         //set the application context passed from the call
         connectService(context);
 
@@ -118,7 +115,7 @@ public class Image {
         while (iterator.hasNext()) {
             mDevice = (UsbDevice) usblist.get(iterator.next());
             //validate against vendorid
-            if (mDevice.getVendorId() == vendorId) {
+            if (mDevice.getProductId() == anId) {
                 try {
                     if (mUsbManager.hasPermission(mDevice)) {
                         bHasPermission = true;

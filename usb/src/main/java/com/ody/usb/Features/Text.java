@@ -42,7 +42,7 @@ public class Text {
         mContext = null;
     }
 
-    public USB_Response plain(Context context, int vendorId, String content){
+    public USB_Response plain(Context context, int anId, String content){
         //set variables
         content = content;
         USB_Response USBResponse = USB_Response.getInstance();
@@ -64,9 +64,9 @@ public class Text {
 
         while (iterator.hasNext())
         {
-            //validate against vendorid
+            //validate against anId
             mDevice = (UsbDevice)usblist.get(iterator.next());
-            if(mDevice.getVendorId() == vendorId)
+            if(mDevice.getProductId() == anId)
             {
                 try
                 {

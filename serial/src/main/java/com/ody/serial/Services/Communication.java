@@ -13,7 +13,7 @@ public class Communication {
             responseAsString = Data.getInstance().request(serialPort, baudRate, closeSerialPort);
         } catch (Exception e) {
             responseAsString = Response.getInstance().compose(false, e,
-                    "Exception in Send And Recieve (request) - returnData.").getsErrorMessage();
+                    "Exception in Send And Receive (request) - returnData.").getsErrorMessage();
         }
         return responseAsString;
     }
