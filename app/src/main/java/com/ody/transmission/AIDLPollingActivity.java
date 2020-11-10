@@ -65,6 +65,16 @@ public class AIDLPollingActivity extends AppCompatActivity {
             }
         });
 
+        Button btnDraw = (Button) findViewById(R.id.btn_drawText);
+        btnDraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String content = getContent();
+                Display.lcdDouble("Welcome To", "Kloppers");
+                //Display.lcdDrawText("Welcome  To", "Kloppers");
+            }
+        });
+
         Button qr = (Button) findViewById(R.id.aidlpolling_btn_qr);
         qr.setOnClickListener(new View.OnClickListener() {
             @Override

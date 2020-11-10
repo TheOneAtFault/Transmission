@@ -58,6 +58,11 @@ public class PrintJob {
         } catch (Exception e) {
             //expected
         }
+        POSPrinter = null;
+        mUsbManager = null;
+        port = null;
+        mDevice = null;
+        mSlip = null;
         mContext = null;
     }
 

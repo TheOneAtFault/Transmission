@@ -8,7 +8,7 @@ import com.ody.aidl.Helpers.Response;
 import com.ody.aidl.Utils.AidlUtil;
 
 public class QR {
-    static private int print_size = 8;
+    static private int print_size = 5;
     static private int error_level = 3;
     private static Response response;
     private static QR mQR;
@@ -36,6 +36,7 @@ public class QR {
         }
 
         try {
+
             if (content == "") {
                 content = "https://www.odysseypos.co.za";
             }

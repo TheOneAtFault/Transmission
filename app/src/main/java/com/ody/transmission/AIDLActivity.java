@@ -83,7 +83,7 @@ public class AIDLActivity extends AppCompatActivity {
         qr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Response response = Print.qr("", CUT_PAPER, PADDING);
+                Response response = Print.qr("", CUT_PAPER, PADDING, 5);
                 TextView log = (TextView) findViewById(R.id.aidl_tv_log);
                 if (!response.isSuccess()) {
                     log.setText(response.getsErrorMessage());

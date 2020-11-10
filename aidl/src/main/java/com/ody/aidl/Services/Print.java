@@ -12,9 +12,9 @@ import com.ody.aidl.Helpers.Response;
 public class Print {
     private static Response response;
 
-    public static Response qr(String data, boolean cut, int padding) {
+    public static Response qr(String data, boolean cut, int padding, int printSize) {
         try {
-            response = QR.getInstance().print(data, null, null, cut, padding);
+            response = QR.getInstance().print(data, printSize, null, cut, padding);
         } catch (Exception e) {
             response = Response.getInstance().compose(false, e, "Exception in Print - QR");
         }

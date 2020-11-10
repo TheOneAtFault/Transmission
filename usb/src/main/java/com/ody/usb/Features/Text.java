@@ -87,7 +87,9 @@ public class Text {
                         portConnection = port.connect_device(mDevice);
                         posPrinter = new ESCPOSPrinter(portConnection);
                         posPrinter.printNormal(content);
+                        posPrinter = null;
                         portConnection.close();
+                        portConnection = null;
                         USBResponse = USB_Response.getInstance().compose(true,null,"Success");
                     }
                 }
