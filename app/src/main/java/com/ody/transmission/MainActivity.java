@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         final Button usb = findViewById(R.id.btn_usb);
         Button serial = findViewById(R.id.btn_serial);
         Button wifi = findViewById(R.id.btn_wifi);
+        Button bluetooth = findViewById(R.id.btn_bluetooth);
 
 
         aidl.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +57,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent toWifi = new Intent(MainActivity.this, WifiActivity.class);
                 startActivity(toWifi);
+            }
+        });
+
+        bluetooth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toBt = new Intent(MainActivity.this, BluetoothActivity.class);
+                startActivity(toBt);
             }
         });
 

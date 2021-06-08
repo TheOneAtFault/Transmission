@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ody.aidl.Helpers.Response;
+import com.ody.aidl.Services.Drawer;
 import com.ody.aidl.Services.Print;
 import com.ody.aidl.StartUp;
 import com.ody.aidl.Utils.AidlUtil;
@@ -57,6 +58,7 @@ public class AIDLActivity extends AppCompatActivity {
                 try {
                     Response response = Print.text("AIDL Text USB_Print Test \n", CUT_PAPER, PADDING);
                     TextView log = (TextView) findViewById(R.id.aidl_tv_log);
+                    //Toast.makeText(context, "" + response.isSuccess(), Toast.LENGTH_SHORT).show();
                     if (!response.isSuccess()) {
                         log.setText(response.getsErrorMessage());
                     }
@@ -100,7 +102,12 @@ public class AIDLActivity extends AppCompatActivity {
         kickdrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Response response = Drawer.kick();
+                TextView log = (TextView) findViewById(R.id.aidl_tv_log);
+                if (!response.isSuccess()) {
+                    log.setText(response.getsErrorMessage());
+                    log.setText(response.getsOutput());
+                }
             }
         });
 
