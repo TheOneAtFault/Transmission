@@ -1,4 +1,4 @@
-package com.ody.bluetooth;
+package com.ody.valori;
 
 import android.content.Context;
 

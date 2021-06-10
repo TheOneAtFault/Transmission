@@ -1,4 +1,4 @@
-package com.ody.bluetooth;
+package com.ody.valori;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

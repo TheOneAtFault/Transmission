@@ -3,13 +3,11 @@ package com.ody.transmission;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,18 +17,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.ody.bluetooth.PrinterManager;
-import com.ody.bluetooth.ThreadPoolManager;
-import com.ody.bluetooth.Valori_CUT;
+import com.ody.valori.PrinterManager;
+import com.ody.valori.Valori_Cut;
+import com.ody.valori.Valori_DrawerKick;
+import com.ody.valori.Valori_PrintImage;
+import com.ody.valori.Valori_Print_QR;
+import com.ody.valori.Valori_Print_Text;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 public class BluetoothActivity extends AppCompatActivity  {
@@ -58,6 +56,7 @@ public class BluetoothActivity extends AppCompatActivity  {
         Button image = (Button)findViewById(R.id.bluetooth_print_image);
         Button cut = (Button)findViewById(R.id.bluetooth_cut);
         Button drawer = (Button)findViewById(R.id.bluetooth_drawer_kick);
+        Button qr = (Button)findViewById(R.id.bluetooth_qr);
 
         mBitmap = (Button) findViewById(R.id.bluetooth_print_image);
 
@@ -88,6 +87,14 @@ public class BluetoothActivity extends AppCompatActivity  {
         });
 
 
+        qr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Qr();
+            }
+        });
+
+
 
         Toast.makeText(this, "ready", Toast.LENGTH_SHORT).show();
     }
@@ -100,6 +107,7 @@ public class BluetoothActivity extends AppCompatActivity  {
             if(data != null){
                 Uri selectedImage = data.getData();
                 Bitmap bitmap = null;
+                Uri uri;
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 } catch (IOException e) {
@@ -108,7 +116,12 @@ public class BluetoothActivity extends AppCompatActivity  {
                 //ImageView ivThumbnailPhoto = findViewById(R.id.aidl_iv_image);
                 //ivThumbnailPhoto.setImageBitmap(bitmap);
                 try {
-                    Blue(bitmap);
+                    uri = MediaStore.Images.Media.getContentUri(data.getDataString());
+
+                    Uri selectedImageUri = data.getData( );
+                    String picturePath = getPath( this.getApplicationContext( ), selectedImageUri );
+                    Toast.makeText(mContext, picturePath, Toast.LENGTH_SHORT).show();
+                    Blue(picturePath);
                 } catch (Exception e) {
                     TextView log = findViewById(R.id.tv_usb_log);
                     Writer writer = new StringWriter();
@@ -124,43 +137,55 @@ public class BluetoothActivity extends AppCompatActivity  {
 
 
     public  void Drawer(){
-
-        Valori_CUT.kickDrawer();
+        try {
+            Valori_DrawerKick.getInstance().kick(mContext);
+        }catch (Exception e){
+            Toast.makeText(this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public  void Red(){
         try {
-            Valori_CUT.printerCut();
+            Valori_Cut.getInstance().cut(mContext);
         }catch (Exception e){
             Toast.makeText(this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    public void Blue(Bitmap bb){
-        //Valori_CUT.printImage();
+    public void Blue(String bb){
+        try {
+            Valori_PrintImage.getInstance().print(mContext, bb);
+        }catch (Exception e){
+            Toast.makeText(this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
 
-//        final Bitmap imgAsBitmap = bb;
-//
-//        final Map<String, Integer> map = new HashMap<String, Integer>();
-//        map.put(PrinterManager.KEY_ALIGN, 0);
-//        map.put(PrinterManager.KEY_MARGINLEFT, 5);
-//        map.put(PrinterManager.KEY_MARGINRIGHT, 5);
-//
-//        ThreadPoolManager.getInstance().executeTask(new Runnable() {
-//            @Override
-//            public void run() {
-//                // TODO Auto-generated method stub
-//                try {
-//                    mPrinterManager.printBitmap(imgAsBitmap, map);
-//                } catch (Exception e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                    Toast.makeText(mContext, "Nope", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
+    public void Qr(){
+        try {
+            Valori_Print_Text.getInstance().print(mContext, "");
+            Valori_Print_QR.getInstance().print(mContext, "www.odyssey.com");
+        }catch (Exception e){
+            Toast.makeText(this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
 
+
+    public static String getPath( Context context, Uri uri ) {
+        String result = null;
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = context.getContentResolver( ).query( uri, proj, null, null, null );
+        if(cursor != null){
+            if ( cursor.moveToFirst( ) ) {
+                int column_index = cursor.getColumnIndexOrThrow( proj[0] );
+                result = cursor.getString( column_index );
+            }
+            cursor.close( );
+        }
+        if(result == null) {
+            result = "Not found";
+        }
+        return result;
     }
 
 }

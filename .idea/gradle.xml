@@ -13,9 +13,9 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/aidl" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/bluetooth" />
             <option value="$PROJECT_DIR$/serial" />
             <option value="$PROJECT_DIR$/usb" />
+            <option value="$PROJECT_DIR$/valori" />
             <option value="$PROJECT_DIR$/wifi" />
           </set>
         </option>
